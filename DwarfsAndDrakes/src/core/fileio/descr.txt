@@ -1,0 +1,4 @@
+The fileio folder will contain a script read-write API analogously used to the 
+graphics API. The analogy only stretches as far as saying that the fileio code 
+could be swapped out without changing the rest of the game, as long as the API 
+is maintained.
