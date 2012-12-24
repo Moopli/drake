@@ -1,0 +1,1 @@
+The core folder will contain all java code
