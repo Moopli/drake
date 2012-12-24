@@ -5,7 +5,9 @@ from random import randint, random
 This file contains a bunch of dungeon generators. Currently the list includes:
 - Brownian noise generators
 - Fractal Brownian noise generators
+- A binary space partitioning dungeon generator
 
+It is highly recommended to try this out. very cool.
 """
 
 TILESET = {
