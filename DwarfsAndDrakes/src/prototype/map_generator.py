@@ -5,9 +5,8 @@ from random import randint, random
 This file contains a bunch of dungeon generators. Currently the list includes:
 - Brownian noise generators
 - Fractal Brownian noise generators
-- A binary space partitioning dungeon generator
+- A Binary Space Partition Tree dungeon generator
 
-It is highly recommended to try this out. very cool.
 """
 
 TILESET = {
@@ -56,7 +55,7 @@ def fractalBrownian(ar, x, y):
 
 # Binary Space Partitioning for dungeon generation
 
-MIN_DIM = 3 # the min width/height of a rectangle (rooms don't always fill their rects)
+MIN_DIM = 6 # the min width/height of a rectangle (rooms don't always fill their rects)
 
 class BSPRect:
     def __init__(self):
@@ -68,11 +67,9 @@ class BSPRect:
         self.cutType = None
         self.room = [[]]
     def partition(self, split_rate):
-        #if self.children is not [None, None]: return # already partitioned
-        if self.w <= MIN_DIM * 2 or self.h <= MIN_DIM * 2: return #too small
         if random() > split_rate: return # random chance decrees no split
         # actually partition now
-        if random() > 0.5:
+        if random() > 0.5 and self.h > MIN_DIM*2: # if not too small vertically, partition with horizontal cut.
             # make horizontal cut
             self.cutType = "H"
             cut_y = randint(self.y + MIN_DIM, self.y + self.h - MIN_DIM)
@@ -82,7 +79,7 @@ class BSPRect:
             bot.x, bot.y, bot.w, bot.h = self.x, cut_y, self.w, self.h + self.y - cut_y
             self.children = [top, bot]
             pass
-        else:
+        elif self.w > MIN_DIM*2:
             # make vertical cut
             self.cutType = "V"
             cut_x = randint(self.x + MIN_DIM, self.x + self.w - MIN_DIM)
@@ -92,7 +89,8 @@ class BSPRect:
             rgt.x, rgt.y, rgt.w, rgt.h = cut_x, self.y, self.x + self.w - cut_x, self.h
             self.children = [lft, rgt]
             pass
-        # partition children also
+        # partition children also, unless there was no split
+        if self.cutType is None: return
         for child in self.children:
             child.partition(split_rate)
     def roomify(self):
