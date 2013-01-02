@@ -1,1 +1,2 @@
 The core folder will contain all java code
+-- note -- package fileio was deleted as it is unnecessary
