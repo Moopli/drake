@@ -70,4 +70,16 @@ public class TextSurface {
         }
     }
     
+    public void setChar(int x, int y, char ch){
+        this.foreground[y][x] = ch;
+    }
+    
+    public void setCharColor(int x, int y, Color c){
+        this.foreground_color[y][x] = c;
+    }
+    
+    public void setColorBack(int x, int y, Color c){
+        this.background[y][x] = c;
+    }
+    
 }
