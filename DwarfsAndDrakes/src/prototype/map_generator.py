@@ -5,7 +5,6 @@ from random import randint, random
 This file contains a bunch of dungeon generators. Currently the list includes:
 - Brownian noise generators
 - Fractal Brownian noise generators
-- A Binary Space Partition Tree dungeon generator
 
 """
 
@@ -162,24 +161,39 @@ class BSPRect:
                         break # right check
                     # left check not needed
                     x += 1
-                
+
+
+####
+# Utility read/write code
+
+def WriteLine(path, line):
+    with open(path, "a") as fout:
+        fout.write(str(line) + "\n")
+
+def WriteMapAr(path, ar):
+    with open(path, "a") as fout:
+        for line in ar:
+            fout.write("".join(line) + "\n")
 
 ###############
 # SAMPLE CODE
+def main():
+    # -- Dungeon --
+    print " ## DUNGEON MAP ## "
+    bspr = BSPRect()
+    bspr.w = 80
+    bspr.h = 60
+    bspr.partition(1)
+    bspr.roomify()
+    display(bspr.room)
+    WriteMapAr("dungeon.map", bspr.room)
+    # -- Overworld --
+    print " ## OVERWORLD MAP ## "
+    ovw = dirtMap(50, 40)
+    fractalBrownian(ovw, 12, 17)
+    display(ovw)
 
-# -- Dungeon --
-print " ## DUNGEON MAP ## "
-bspr = BSPRect()
-bspr.w = 50
-bspr.h = 40
-bspr.partition(1)
-bspr.roomify()
-display(bspr.room)
-
-# -- Overworld --
-print " ## OVERWORLD MAP ## "
-ovw = dirtMap(50, 40)
-fractalBrownian(ovw, 12, 17)
-display(ovw)
-
-
+if __name__ == "main":
+    main()
+else:
+    main()
