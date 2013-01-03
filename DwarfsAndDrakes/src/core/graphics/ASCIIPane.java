@@ -55,6 +55,7 @@ public class ASCIIPane extends JComponent implements ActionListener{
     
     @Override
     public void paintComponent(Graphics g){
+        surface.update();
         for (int x = 0; x < columns; x++){
             for (int y = 0; y < rows; y ++){
                 g.setColor(surface.background[y][x]);
