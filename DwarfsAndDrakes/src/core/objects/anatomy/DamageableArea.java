@@ -20,7 +20,7 @@ public class DamageableArea {
     
     boolean isArmorable = false; // you can't wear a spleenplate, but you can sure wear a guantlet!
     
-    int thickness; // overall volume, determines likelihood to be hit (along with length) and penetration depth if hit (along with hardness)
+    int volume; // overall volume, determines likelihood to be hit (along with length) and penetration depth if hit (along with hardness)
     int length; // length of major axis, to determine how likely it is to be hit
     int hardness; // how easy it is to cut/poke/smash through?
     

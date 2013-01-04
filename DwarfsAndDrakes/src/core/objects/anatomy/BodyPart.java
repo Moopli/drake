@@ -16,19 +16,19 @@ import java.util.*;
  * 
  * @author filip
  */
-public class BodyPart {
-    
-    public ArrayList<BodyPart> connected = new ArrayList<BodyPart>();
-    public ArrayList<String> functions_provided = new ArrayList<String>();
-    public ArrayList<String> functions_required = new ArrayList<String>();
-    
-    // And of course, all of those pesky properties:
-    boolean supportsInfrastructure = true; // if an organ is vaporized, it hardly has nerves or blood vessels, does it?
+public class BodyPart extends DamageableArea {
     
     
-    int thickness; // overall volume, determines likelihood to be hit (along with length) and penetration depth if hit (along with hardness)
-    int length; // length of major axis, to determine how likely it is to be hit
-    int hardness; // how easy it is to cut/poke/smash through?
+    public String internalName;
     
+    public HashSet<BodyPart> connected = new HashSet<BodyPart>();
+    public HashSet<String> functionsProvided = new HashSet<String>();
+    public HashSet<String> functionsRequired = new HashSet<String>();
+    
+    // if an organ is vaporized, it hardly has nerves or blood vessels, does it?
+    boolean supportsInfrastructure = true; 
+    
+    // a body part may be wholy within another
+    BodyPart contained_inside;
     
 }
