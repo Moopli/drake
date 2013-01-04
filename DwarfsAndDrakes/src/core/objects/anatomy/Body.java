@@ -13,7 +13,7 @@ import java.util.*;
 public class Body {
     
     
-    public ArrayList<BodyPart> bodyparts = new ArrayList<BodyPart>();
+    public HashMap<String, BodyPart> bodyparts = new HashMap<String, BodyPart>();
     
     /**
      * FloodFills over all BodyParts, updating each with whether it is functioning.
