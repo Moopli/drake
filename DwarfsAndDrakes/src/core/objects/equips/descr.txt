@@ -42,10 +42,9 @@ Who controls whether you are getting effects? Item management perhaps, body
 management perhaps -- if a ring is on a finger cut of, does it still take 
 effect?
 
-This probably has to be both together -- actually, we can let item management 
-handle this -- the item-equip system check whether the body-parts equips attach 
-to are functional; if not, no effect. Plain and simple; after all, the body 
-already checks for itself whether parts function.
+We can let item management handle this -- the item-equip system check whether 
+the body-parts equips attach to are functional; if not, no effect. Plain and 
+simple; after all, the body already checks for itself whether parts function.
 
 As for effects then -- we'd probably have a separate system for effects;  more 
 on this later.
