@@ -64,7 +64,7 @@ public class BodyPart {
         
     }
     
-    // properties storing just howw damaged it is
+    // properties storing just how damaged it is
     
     /*
      * mayhaps we could use a current HP vs. minimum HP to function system --

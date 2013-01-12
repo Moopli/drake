@@ -11,4 +11,5 @@ package core.objects.equips;
 public interface HasInventory {
     
     public Inventory getInventory();
+    
 }

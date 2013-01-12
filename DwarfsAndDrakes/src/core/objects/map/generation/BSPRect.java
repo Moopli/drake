@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package core.objects.map;
+package core.objects.map.generation;
 
 import java.util.Random;
 
