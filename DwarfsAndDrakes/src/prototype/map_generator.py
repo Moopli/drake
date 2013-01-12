@@ -25,7 +25,7 @@ def fillRect(ar, x, y, w, h, tile):
 
 def display(ar):
     for line in ar:
-        print "".join(line)
+        print " ".join(line)
 
 ############
 # for overworld and cavern generation
@@ -186,7 +186,7 @@ def main():
     bspr.partition(1)
     bspr.roomify()
     display(bspr.room)
-    WriteMapAr("dungeon.map", bspr.room)
+    WriteMapAr("dungeon2.map", bspr.room)
     # -- Overworld --
     print " ## OVERWORLD MAP ## "
     ovw = dirtMap(50, 40)
