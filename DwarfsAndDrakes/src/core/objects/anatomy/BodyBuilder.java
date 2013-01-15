@@ -6,6 +6,8 @@ package core.objects.anatomy;
 
 import java.io.IOException;
 import java.util.Properties;
+import data.DataRoot;
+
 
 /**
  * This class constructs bodies; given config file templates.
@@ -13,18 +15,18 @@ import java.util.Properties;
  */
 public class BodyBuilder {
     
-    public static final String BODY_PATH_PREFIX = "";
+    public static final String BODY_PATH_PREFIX = "anatomy/";
     
     /**
      * The class object which is situated at the base of the resources tree
      */
-    public static final Class RESOURCE_TRUNK = BodyBuilder.class;
+    public static final Class RESOURCE_TRUNK = DataRoot.class;
     
     public static void loadConfTest(){
         
         Properties config = new Properties();
         try{
-            config.load(BodyBuilder.class.getResourceAsStream("sample.body"));
+            config.load(BodyBuilder.class.getResourceAsStream(BODY_PATH_PREFIX + "sample.body"));
             
             System.out.println(config.getProperty("NAME"));
             System.out.println(config.getProperty("PARTS"));
