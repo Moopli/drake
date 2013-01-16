@@ -26,7 +26,7 @@ public class BodyBuilder {
         
         Properties config = new Properties();
         try{
-            config.load(BodyBuilder.class.getResourceAsStream(BODY_PATH_PREFIX + "sample.body"));
+            config.load(RESOURCE_TRUNK.getResourceAsStream(BODY_PATH_PREFIX + "sample.body"));
             
             System.out.println(config.getProperty("NAME"));
             System.out.println(config.getProperty("PARTS"));
