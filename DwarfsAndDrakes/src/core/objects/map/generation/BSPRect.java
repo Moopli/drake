@@ -74,7 +74,7 @@ public class BSPRect {
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < this.h; i++) {
             for (int j = 0; j < this.w; j++) {
-                buf.append(this.room.get(i).get(j)+" ");
+                buf.append(this.room.get(i).get(j));
             }
             buf.append("\n");
         }
