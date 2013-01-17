@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class ActiveArea {
     
-    
+    HashSet<Mappable> mappables = new HashSet<Mappable>();
     
     int width = 10, height = 10;
     
