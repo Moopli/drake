@@ -8,7 +8,7 @@ package core.objects.map;
  *
  * @author 301916706
  */
-public interface isMappable {
+public interface IsMappable {
     
     /**
      * @return A pointer to the mappable this object has.
