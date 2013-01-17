@@ -5,6 +5,7 @@
 package core.objects;
 
 import core.objects.ai.*;
+import core.objects.anatomy.*;
 import core.objects.equips.*;
 import core.objects.map.*;
 
@@ -13,9 +14,9 @@ import core.objects.map.*;
  *
  * @author filip
  */
-public class Mob implements HasAI, IsMappable, HasInventory {
+public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     
-    private AIController brain;
+    protected AIController brain;
     
     @Override
     public void setController(AIController contr) {
@@ -90,6 +91,18 @@ public class Mob implements HasAI, IsMappable, HasInventory {
     @Override
     public Inventory getInventory() {
         return inventory;
+    }
+    
+    protected Body body = new Body();
+    
+    @Override
+    public Body getBody() {
+        return body;
+    }
+
+    @Override
+    public void setBody(Body body) {
+        this.body = body;
     }
 
     

@@ -4,8 +4,7 @@
  */
 package core.objects.map;
 
-import java.util.ArrayList;
-
+import java.util.*;
 /**
  *
  * @author 301916706
@@ -74,6 +73,8 @@ public class ActiveArea {
      */
     int[][] playerLOS = new int[height][width];
     
+    public static int PLAYER_LOS = 7;
+    
     public void updateLOS(int px, int py){
         // clear array
         for (int y = 0; y < playerLOS.length; y++){
@@ -82,7 +83,12 @@ public class ActiveArea {
             }
         }
         
-        // now for some very messy code:
+        // now for a short flood fill
+        LinkedList floodQueue = new LinkedList();
+        
+        
+        
+        
         
         
     }
