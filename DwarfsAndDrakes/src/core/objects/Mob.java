@@ -18,6 +18,15 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     
     protected AIController brain;
     
+    protected int moveDelay = 4; // not 1, so we can make things that move fast
+    
+    /**
+     * Status bitmask flags
+     */
+    public static final int CAN_SEE = 1, CAN_MOVE = 2, CAN_SMELL = 4;
+    
+    protected int statusBitMask = CAN_SEE | CAN_MOVE | CAN_SMELL;
+    
     @Override
     public void setController(AIController contr) {
         brain = contr;
