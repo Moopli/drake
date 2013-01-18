@@ -77,13 +77,15 @@ worm_mouth = worm_body
 --- EOF ---
 
 --- worm_body.part ---
-name = worm_body_part
-functions = SLITHER
+name = worm_body
+functions = AMBULATE
 required_functions = THOUGHT FOOD
 flavor = worm_body_part.flavor
 volume = 5
 length = 7
 hardness = 2
+material = flesh.material
+equip = WORM_MAIL
 --- EOF ---
 
 --- worm_mouth.part ---
@@ -95,6 +97,7 @@ flavor = worm_mouth.flavor
 volume = 1
 length = 1
 hardness = 1
+material = flesh.material
 --- EOF ---
 
 --- worm_brain.part ---
@@ -105,6 +108,7 @@ flavor = worm_brain.flavor
 volume = 1
 length = 1
 hardness = 1
+material = flesh.material
 --- EOF ---
 
 --- worm_gut.part ---
@@ -114,6 +118,7 @@ flavor = worm_gut.flavor
 volume = 3
 length = 5
 hardness = 1
+material = flesh.material
 --- EOF ---
 
 And now to demonstrate some body templating, we'll make an eyed worm , that has 

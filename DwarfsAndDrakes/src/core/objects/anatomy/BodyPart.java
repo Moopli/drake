@@ -4,7 +4,10 @@
  */
 package core.objects.anatomy;
 
+import core.objects.materials.Material;
 import java.util.*;
+import core.objects.equips.*;
+import core.objects.materials.MaterialLoader;
 
 
 /*
@@ -40,8 +43,10 @@ public class BodyPart {
     
     int volume; // overall volume, determines likelihood to be hit (along with length) and penetration depth if hit (along with hardness)
     int length; // length of major axis, to determine how likely it is to be hit
-    int hardness; // how easy it is to cut/poke/smash through?
+    // int hardness; // how easy it is to cut/poke/smash through?
     
+    
+    // OH OH OH I KNOW EXACTLY HOW TO DO THE DAMAGE STUFF -- bodyparts have materials.
     
     /*
      * Yup, here it is; the big "damage that thing" method.
@@ -64,15 +69,17 @@ public class BodyPart {
         
     }
     
-    // properties storing just how damaged it is
-    
-    /*
-     * mayhaps we could use a current HP vs. minimum HP to function system --
-     * we change descriptors based on where current HP is, and say things like 
-     * "about to fail", or "perfectly healthy".
-     * What's more, the minHP value could be moved around, and so could curHP, 
-     * based on something like a constitution number.
+    /**
+     * The material this BodyPart is made of. For most "normal" creatures, that 
+     * would be flesh. For others it would be jello. For others it would be 
+     * salt. And so on and so forth.
      */
+    Material material = MaterialLoader.makeElasticGoo();
     
-    int curHP, minHP;
+    
+    /**
+     * This value is the highest wear the part's material can take before it 
+     * fails. It is possible that the part
+     */
+    int maxWear;
 }
