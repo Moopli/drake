@@ -1,0 +1,155 @@
+##################################################################
+# BODY FILE SYNTAX -- or how to make bodies
+##################################################################
+
+# Syntax requirements:
+
+We need to be able to define a bunch of separate bodyparts, obviously. 
+However, these parts may share many properties; so it would be a good idea to 
+allow for inheritance of some sort.
+
+Different bodyparts will have to be in different files; but that's not much of a 
+problem. Example:
+
+--- start of file human_hand.part ---
+# internal key
+name = human_hand
+functions = GRASPING WEAPON_MELEE
+required_functions = OXYGEN THOUGHT BLOOD
+# weapon_template key only necessary if this part has a weapon function
+weapon_template = human_fist.weapon
+# file of descriptions, backstories, in-game-name
+flavor = hand.flavor
+# damage values
+volume = 12
+length = 18
+hardness = 3
+--- EOF ---
+
+The inheritance will be quite simple -- all data from an inherited part or file 
+will be read into the bodypart first, but can then be overwritten by data in the 
+part file itself. In fact, we could easily combine multiple inheritances into 
+one object -- later inheritances would overwrite earlier ones; so all we'd need 
+is a definite order. Example:
+
+--- snippet ---
+inherits = human_internal_organ.template  toxic_organ.template
+--- EOF ---
+
+This would read in human internal organ data first, and then toxic organ data, 
+possibly overwriting, and then the rest of the data in the file, again possibly 
+overwriting.
+
+# Reading in Body Files
+
+--- worm_body.body ---
+# internal key
+name = worm_body
+# parts are loaded into a HashMap, where each part is referenced by its internal 
+# name. They are listed here with filenames for easy loading.
+# -- this may cause minor annoyance if file names and part names are different 
+parts = worm_gut.part worm_mouth.part worm_brain.part worm_body.part
+# the next part constitutes the attachment of parts together
+# -- how will we distinguish connection and inclusion?
+--- continued below ---
+
+here's a solution:
+
+part_a = part_b # means part a contains part b
+# but if we also have
+part_b = part_a 
+# well, mutual containment between contiguous bodies is  impossible in the space 
+# we're working with, so that means they are attached.
+
+--- Back to you, worm_body.body ---
+# body contains gut and brain (but not mouth, since mouth is on exterior)
+worm_body = worm_mouth worm_gut worm_brain
+worm_mouth = worm_body
+--- EOF ---
+
+Oh yeah, so in the end our prototype worm body would look like this:
+
+--- worm_body.body ---
+name = worm_body
+parts = worm_body.part worm_mouth.part worm_gut.part worm_brain.part
+worm_body = worm_brain worm_mouth worm_gut
+worm_mouth = worm_body
+--- EOF ---
+
+--- worm_body.part ---
+name = worm_body
+functions = AMBULATE
+required_functions = THOUGHT FOOD
+flavor = worm_body_part.flavor
+volume = 5
+length = 7
+hardness = 2
+material = flesh.material
+equip = WORM_MAIL
+--- EOF ---
+
+--- worm_mouth.part ---
+name = worm_mouth
+functions = FOOD WEAPON_MELEE
+required_functions = THOUGHT
+weapon_template = worm_sucker.weapon
+flavor = worm_mouth.flavor
+volume = 1
+length = 1
+hardness = 1
+material = flesh.material
+--- EOF ---
+
+--- worm_brain.part ---
+name = worm_brain
+functions = THOUGHT
+required_functions = FOOD
+flavor = worm_brain.flavor
+volume = 1
+length = 1
+hardness = 1
+material = flesh.material
+--- EOF ---
+
+--- worm_gut.part ---
+name = worm_gut
+required_functions = FOOD THOUGHT
+flavor = worm_gut.flavor
+volume = 3
+length = 5
+hardness = 1
+material = flesh.material
+--- EOF ---
+
+And now to demonstrate some body templating, we'll make an eyed worm , that has 
+an eye in addition all the other stuff the worm has.
+
+First we'll define our eye:
+
+--- worm_eye.part ---
+name = worm_eye
+functions = SIGHT
+required_functions = FOOD THOUGHT
+flavor = worm_eye.flavor
+volume = 1
+length = 1
+hardness = 1
+--- EOF ---
+
+Now we attach the eye to a new worm:
+
+--- eyed_worm.body ---
+name = eyed_worm
+inherits = worm_body.body
+parts = worm_eye.part # now we only define additional parts
+worm_body = worm_eye # changes are additive
+worm_eye = worm_body
+--- EOF ---
+
+And that's it!
+
+
+
+
+
+
