@@ -93,6 +93,37 @@ public class ActiveArea {
         
     }
     
+    public void loadMap(String filename) {
+        try {
+            // Open the file that is the first 
+            // command line parameter
+            FileInputStream fstream = new FileInputStream(filename);
+            // Get the object of DataInputStream
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            //Read File Line By Line
+            int c=0;
+            while ((strLine = br.readLine()) != null) {
+                for (int i = 0; i < strLine.length(); i++) {
+                    char tile=strLine.charAt(i);
+                    if (tile=='#') {
+                        tiles[c][i]=DungeonTile.WALL;
+                    }
+                    else if (tile=='.'){
+                        tiles[c][i]=DungeonTile.FLOOR;
+                    }
+                }
+                // Print the content on the console
+                c++;
+            }
+            //Close the input stream
+            in.close();
+        } catch (Exception e) {//Catch exception if any
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+    
     
     
 }
