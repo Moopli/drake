@@ -4,6 +4,8 @@
  */
 package core.objects.map;
 
+import java.awt.Color;
+
 /**
  *
  * @author 301916706
@@ -13,6 +15,8 @@ public class Mappable {
     public int x, y;
     
     public char img;
+    
+    public int tileFlags = 1;
     
     public ActiveArea dungeon; // really shouldn't be puvblic, we'll refactor later
     
@@ -26,6 +30,13 @@ public class Mappable {
     
     public int getSmellOnTile(){
         return dungeon.playerScent[y][x];
+    }
+    
+    public Color getColorBack(){
+        return Color.black;
+    }
+    public Color getColorFore(){
+        return Color.LIGHT_GRAY;
     }
     
 }
