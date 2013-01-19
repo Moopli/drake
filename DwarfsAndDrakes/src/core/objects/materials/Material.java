@@ -53,42 +53,21 @@ public class Material {
      * However, we need some value that stores the total amount of wear.
      * Wear, perhaps? Or perhaps we can calculate wear by adjusting the above 
      * values -- as overall wear exerts its effect through these...naw, it's 
-     * probably better to store above values at no-weaar values, then store wear 
+     * probably better to store above values at no-wear values, then store wear 
      * and use it to make the necessary adjustments.
      */
     
     
-    public double getStrain(double stress){
-        if (stress < yieldPoint / wear){
-            return stress / youngsModulus * wear; // of course, this has to be 
-                                                  // adjusted for other moduli
-        }
-        
-        return 0;
-    }
-    
-    
     public double wear = 1;
     
-    /**
-     * calculates the amount of wear inflicted on two materials by a collision 
-     * with the given contact area and force. 
-     * @param a
-     * @param b
-     * @param contact_area
-     * @param force 
+   /*
+     * You might note that the rupture point and other similar values are 
+     * neglected. That isn't a problem, as we calculate breakage and plastic 
+     * changes through wear.
+     * 
+     * 
      */
-    public static void collision(Material a, Material b, double contact_area, double force){
-        // if the contact stress is low enough, use elastic moduli,
-        // otherwise plastic deformation
-        
-        // if the contact area is large enough, use bulk modulus (compressive hit)
-        // otherwise, use shear 
-        // young's is for ripping stuff apart, so not used here
-        
-        // if the deformation is elastic, only a little bit of wear is inflicted
-        // but a plastic deformation carries a lot more wear.
-        
-    }
+    
+    
     
 }
