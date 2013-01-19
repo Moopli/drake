@@ -9,6 +9,6 @@ package core.objects.ai;
  * @author filip
  */
  enum Command {
-    N, S, E, W, NE, NW, SE, SW, WAIT
+    N, S, E, W, NE, NW, SE, SW, WAIT, NOTYET
     
 }

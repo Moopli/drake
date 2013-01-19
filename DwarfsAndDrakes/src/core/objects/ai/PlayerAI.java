@@ -13,10 +13,11 @@ import java.awt.*;
  */
 public class PlayerAI extends AIController implements KeyListener {
     
-    Command nextMove = null;
+    Command nextMove = Command.NOTYET;
     
     @Override
     public boolean think() {
+        //System.out.println(nextMove);
         switch (nextMove){
             case N:
                 controlled.goN();
@@ -48,22 +49,26 @@ public class PlayerAI extends AIController implements KeyListener {
                 // wait for input, think again
                 return true;
         }
-        nextMove = null;
+        nextMove = Command.NOTYET;
         return false;
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        if (nextMove != null) return;
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    if (nextMove != Command.NOTYET) return;
         switch (e.getKeyCode()){
             case KeyEvent.VK_NUMPAD1:
-                nextMove = Command.SE;
+                System.out.println("snurp");
+                nextMove = Command.SW;
                 break;
             case KeyEvent.VK_NUMPAD2:
                 nextMove = Command.S;
                 break;
             case KeyEvent.VK_NUMPAD3:
-                nextMove = Command.SW;
+                nextMove = Command.SE;
                 break;
             case KeyEvent.VK_NUMPAD4:
                 nextMove = Command.W;
@@ -85,9 +90,6 @@ public class PlayerAI extends AIController implements KeyListener {
                 break;
         }
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {}
 
     @Override
     public void keyReleased(KeyEvent e) {}

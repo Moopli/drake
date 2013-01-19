@@ -13,7 +13,7 @@ import java.io.*;
  */
 public class ActiveArea {
     
-    HashSet<Mappable> mappables = new HashSet<Mappable>();
+    public HashSet<Mappable> mappables = new HashSet<Mappable>();
     
     int width = 10, height = 10;
     
@@ -210,11 +210,11 @@ public class ActiveArea {
             // skip renderin this mappable if out of LOS 
             if (playerLOS[m.y][m.x] == -1) continue;
             // skip rendering this mappable if it's out of the bounds
-            if (Math.abs(m.x - cam_x) >  surface.getWidth()/2 || Math.abs(m.img- cam_y) > surface.getHeight()/2) continue;
+            if (Math.abs(m.x - cam_x) >  surface.getWidth() || Math.abs(m.y - cam_y) > surface.getHeight()) continue;
             
-            surface.setChar(m.x, m.y, m.img);
-            surface.setColorFore(m.x, m.y, m.getColorFore());
-            surface.setColorBack(m.x, m.y, m.getColorBack());
+            surface.setChar(m.x - cam_x, m.y - cam_y, m.img);
+            surface.setColorFore(m.x - cam_x, m.y - cam_y, m.getColorFore());
+            surface.setColorBack(m.x - cam_x, m.y - cam_y, m.getColorBack());
         }
         
     }
