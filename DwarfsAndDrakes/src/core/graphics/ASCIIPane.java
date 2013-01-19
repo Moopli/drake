@@ -4,6 +4,7 @@
  */
 package core.graphics;
 
+import core.objects.map.ActiveArea;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -30,6 +31,13 @@ public class ASCIIPane extends JComponent implements ActionListener{
         
         // test code
         surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
+        
+        ActiveArea map = new ActiveArea();
+        map.loadMap("test.map");
+        map.updateBitMasks();
+        map.updateLOS(5, 6);
+        map.updateLOS(14, 12);
+        map.displayTo(surface, 5, 6);
         
         // boilerplate
         frame = new JFrame("ASCII Panel Test");

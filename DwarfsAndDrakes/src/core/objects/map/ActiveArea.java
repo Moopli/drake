@@ -30,11 +30,13 @@ public class ActiveArea {
      */
     int[][] tileFlags = new int[height][width];
     
-    /**
-     * The strength of the player's odor in each square (possibly zero)
-     */
-    int[][] playerScent = new int[height][width];
-    
+    public ActiveArea(){
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                tiles[i][j] = DungeonTile.FLOOR;
+            }
+        }
+    }
     
     public void updateBitMasks(){
         for (int y = 0; y < this.height; y++) {
@@ -53,6 +55,11 @@ public class ActiveArea {
             tileFlags[m.y][m.x] |= m.tileFlags;
         }
     }
+    
+    /**
+     * The strength of the player's odor in each square (possibly zero)
+     */
+    int[][] playerScent = new int[height][width];
     
     /**
      * The farthest distance smell "diffuses" from the player in a turn.
@@ -111,11 +118,12 @@ public class ActiveArea {
             if (point[1] < 0 || point[1] >= this.height) continue; // y bound
             if (playerLOS[(int)point[1]][(int)point[0]] != -1 && 
                     playerLOS[(int)point[1]][(int)point[0]] < point[2]) continue; // already flooded a shorter way
-            // can be seen
-            tileFlags[(int)point[1]][(int)point[0]] |= WAS_SIGHTED;
-            if ((tileFlags[(int)point[1]][(int)point[0]] & BLOCKS_LIGHT) == 0) continue; //can't see/smell past
             
-            // do actual LOS update
+            // turns off fog of war for tile
+            tileFlags[(int)point[1]][(int)point[0]] |= WAS_SIGHTED;
+            
+            if ((tileFlags[(int)point[1]][(int)point[0]] & BLOCKS_LIGHT) != 0) continue; //can't see/smell past
+            
             playerLOS[(int)point[1]][(int)point[0]] = (int)point[2];
             
             // add 4 edge neighbors
@@ -132,49 +140,66 @@ public class ActiveArea {
     }
     
     public void loadMap(String filename) {
+        
+        ArrayList<ArrayList<DungeonTile>> map = new ArrayList<ArrayList<DungeonTile>>();
+        
         try {
-            // Open the file that is the first 
-            // command line parameter
+            
             FileInputStream fstream = new FileInputStream(filename);
-            // Get the object of DataInputStream
+            
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
-            //Read File Line By Line
-            int c=0;
+            
             while ((strLine = br.readLine()) != null) {
-                for (int i = 0; i < strLine.length(); i++) {
-                    char tile=strLine.charAt(i);
-                    if (tile=='#') {
-                        tiles[c][i]=DungeonTile.WALL;
-                    }
-                    else if (tile=='.'){
-                        tiles[c][i]=DungeonTile.FLOOR;
+                ArrayList<DungeonTile> line = new ArrayList<DungeonTile>();
+                for (char tile: strLine.toCharArray()) {
+                    for (DungeonTile dt : DungeonTile.values()){
+                        if (tile == dt.getCh()){
+                            line.add(dt);
+                        }
                     }
                 }
-                // Print the content on the console
-                c++;
+                
+                map.add(line);
             }
-            //Close the input stream
             in.close();
-        } catch (Exception e) {//Catch exception if any
-            System.err.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        
+        // set up arrays
+        this.tiles = new DungeonTile[map.size()][map.get(0).size()];
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                tiles[i][j] = map.get(i).get(j);
+            }
+        }
+        this.height = this.tiles.length;
+        this.width = this.tiles[0].length;
+        this.playerLOS = new int[height][width];
+        this.playerScent = new int[height][width];
+        this.tileFlags = new int[height][width];
+        this.updateBitMasks();
+        
+        
     }
     
     /**
-     * 
+     * Renders the map onto a given text surface, where the point 
+     * (centerX, centerY) is transferred to the center of the surface.
      * @param surface 
      * @param centerX 
      * @param centerY
      */
     public void displayTo(TextSurface surface, int centerX, int centerY){
-        int cam_x = centerX > surface.getWidth()/2 ? centerX : surface.getWidth()/2;
-        int cam_y = centerY > surface.getHeight()/2 ? centerY : surface.getHeight()/2;
-        for (int x = Math.max(0, cam_x - surface.getWidth()/2); x < Math.min(this.width,cam_x + surface.getWidth()/2 ); x++) {
-            for (int y = Math.max(0, cam_y - surface.getHeight()/2); y < Math.min(this.height,cam_y + surface.getHeight()/2 ); y++) {
+        int cam_x = centerX > surface.getWidth()/2 ? centerX - surface.getWidth()/2 : 0;
+        int cam_y = centerY > surface.getHeight()/2 ? centerY - surface.getHeight()/2 : 0;
+        for (int x = Math.max(0, cam_x); x < Math.min(this.width,cam_x + surface.getWidth() ); x++) {
+            for (int y = Math.max(0, cam_y); y < Math.min(this.height,cam_y + surface.getHeight() ); y++) {
                 // x and y iterate through all points on this surface which are within the output surface
-                if ((tileFlags[y-cam_y][x-cam_x] & WAS_SIGHTED) == 0) continue;
+                if ((tileFlags[y][x] & WAS_SIGHTED) == 0) continue;
+                //System.out.println("" + y + " " + x + " " + this.tiles[y][x]);
                 surface.setChar(x - cam_x, y - cam_y, this.tiles[y][x].getCh());
                 surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor());
                 surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
@@ -182,8 +207,11 @@ public class ActiveArea {
         }
         
         for (Mappable m : mappables){
-            // skip if out of LOS 
+            // skip renderin this mappable if out of LOS 
             if (playerLOS[m.y][m.x] == -1) continue;
+            // skip rendering this mappable if it's out of the bounds
+            if (Math.abs(m.x - cam_x) >  surface.getWidth()/2 || Math.abs(m.img- cam_y) > surface.getHeight()/2) continue;
+            
             surface.setChar(m.x, m.y, m.img);
             surface.setColorFore(m.x, m.y, m.getColorFore());
             surface.setColorBack(m.x, m.y, m.getColorBack());
