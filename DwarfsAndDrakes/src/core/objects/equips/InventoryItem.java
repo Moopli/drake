@@ -5,6 +5,8 @@
 package core.objects.equips;
 
 import core.objects.flavor.*;
+import core.objects.materials.Material;
+import core.objects.materials.MaterialLoader;
 
 /**
  *
@@ -12,6 +14,9 @@ import core.objects.flavor.*;
  */
 public class InventoryItem {
     
-    public FlavorHolder flavor;
+    private FlavorHolder flavor;
+    
+    private Material material = MaterialLoader.makeElasticGoo();
+    
     
 }
