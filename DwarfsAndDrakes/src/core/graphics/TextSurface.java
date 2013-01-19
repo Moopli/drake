@@ -71,14 +71,17 @@ public class TextSurface {
     }
     
     public void setChar(int x, int y, char ch){
+        if (y < 0 || x < 0 || y >= this.rows || x >= this.columns) return;
         this.foreground[y][x] = ch;
     }
     
     public void setColorFore(int x, int y, Color c){
+        if (y < 0 || x < 0 || y >= this.rows || x >= this.columns) return;
         this.foreground_color[y][x] = c;
     }
     
     public void setColorBack(int x, int y, Color c){
+        if (y < 0 || x < 0 || y >= this.rows || x >= this.columns) return;
         this.background[y][x] = c;
     }
     

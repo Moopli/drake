@@ -4,6 +4,8 @@
  */
 package core.graphics;
 
+import core.objects.Player;
+import core.objects.ai.PlayerAI;
 import core.objects.map.ActiveArea;
 import javax.swing.*;
 import java.awt.*;
@@ -23,24 +25,35 @@ public class ASCIIPane extends JComponent implements ActionListener{
     
     TextSurface surface = new TextSurface(columns, rows);
     
+    ActiveArea map= new ActiveArea();
     
+    Player player = new Player(5,5, map);
+    
+    TextSurface ovw;
+        
     public ASCIIPane(){
         super();
         // Font and dimension setup
         font = new Font("Monospaced", Font.PLAIN, char_height);
         
         // test code
-        surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
+        ovw = new TextSurface(20,20);
+        ovw.x = 3; ovw.y = 3;
         
-        ActiveArea map = new ActiveArea();
+        surface.children.put("overworld", ovw);
+        
+        surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
         map.loadMap("test.map");
+        map.mappables.add(player.getMapRepresentation());
         map.updateBitMasks();
         map.updateLOS(5, 6);
         map.updateLOS(14, 12);
-        map.displayTo(surface, 5, 6);
+        map.displayTo(ovw, 5, 6);
+        
+        surface.update();
         
         // boilerplate
-        frame = new JFrame("ASCII Panel Test");
+        frame = new JFrame("Of Narwhales and Manticores");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(columns * char_width, rows * char_height);
         frame.setResizable(false);
@@ -49,12 +62,26 @@ public class ASCIIPane extends JComponent implements ActionListener{
         c.add(this, BorderLayout.CENTER);
         timer = new javax.swing.Timer(30, this);
         frame.setVisible(true);
+        
+        frame.addKeyListener((PlayerAI)player.getController());
+        
         timer.start();
     }
     
+    /*
+     * Note -- this is not the place the main loop should be -- the main loop 
+     * should be with the object manager. this is just a test.
+     *
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        //repaint();
+        map.updateBitMasks();
+        map.updateLOS(player.getMapRepresentation().x, player.getMapRepresentation().y);
+        player.getController().think(); //
+        ovw.fillSurface(' ', Color.black, Color.black);
+        map.displayTo(ovw, player.getMapRepresentation().x, player.getMapRepresentation().y);
+        System.out.println(player.getMapRepresentation().x  + " " + player.getMapRepresentation().y);
+        repaint();
     }
     
     public static void main(String[] args) {
