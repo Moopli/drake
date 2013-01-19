@@ -74,7 +74,7 @@ public class TextSurface {
         this.foreground[y][x] = ch;
     }
     
-    public void setCharColor(int x, int y, Color c){
+    public void setColorFore(int x, int y, Color c){
         this.foreground_color[y][x] = c;
     }
     
@@ -82,4 +82,12 @@ public class TextSurface {
         this.background[y][x] = c;
     }
     
+    
+    public int getWidth(){
+        return columns;
+    }
+    
+    public int getHeight(){
+        return rows;
+    }
 }

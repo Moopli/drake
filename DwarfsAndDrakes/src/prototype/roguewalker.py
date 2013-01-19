@@ -148,7 +148,7 @@ class DungeonMap:
     def renderable(self, player, w = 13, h = 13): # given render window size, produces a map centered on player
         cam_x, cam_y = (player.x if player.x > w/2 else w/2), (player.y if player.y > h/2 else h/2)
         out = [[self.tiles[y][x] for x in xrange(max(0, cam_x - w/2), min(len(self.tiles[y]), cam_x + w/2))] for y in xrange(max(0, cam_y - h/2), min(len(self.tiles), cam_y + h/2))]
-        for obj in self.objs: # remeber to ignore objects outside view
+        for obj in self.objs: # remember to ignore objects outside view
             if abs(obj.y - cam_y) < h/2 and abs(obj.x - cam_x) < w/2:
                 out[obj.y - cam_y + h/2][obj.x - cam_x + w/2] = obj.symbol
             #print obj.x, obj.y
