@@ -41,7 +41,7 @@ public class ActiveArea {
     public void updateBitMasks(){
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
-                tileFlags[y][x] = 0;
+                tileFlags[y][x] = tileFlags[y][x] & WAS_SIGHTED;
                 tileFlags[y][x] |= tiles[y][x] == DungeonTile.WALL? 
                         BLOCKS_MOVEMENT | BLOCKS_LIGHT | AIRTIGHT: // walls let nothing through
                         0;
@@ -201,8 +201,13 @@ public class ActiveArea {
                 if ((tileFlags[y][x] & WAS_SIGHTED) == 0) continue;
                 //System.out.println("" + y + " " + x + " " + this.tiles[y][x]);
                 surface.setChar(x - cam_x, y - cam_y, this.tiles[y][x].getCh());
-                surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor());
-                surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
+                if (playerLOS[y][x] == -1){
+                    surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor().darker().darker());
+                    surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack().darker().darker());
+                } else {
+                    surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor());
+                    surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
+                }
             }
         }
         

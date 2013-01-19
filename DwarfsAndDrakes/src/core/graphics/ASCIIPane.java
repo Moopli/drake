@@ -30,8 +30,8 @@ public class ASCIIPane extends JComponent implements ActionListener{
     Player player = new Player(5,5, map);
     
     TextSurface ovw;
-        
-    public ASCIIPane(){
+    
+    public ASCIIPane(TextSurface main_surface){
         super();
         // Font and dimension setup
         font = new Font("Monospaced", Font.PLAIN, char_height);
@@ -46,13 +46,12 @@ public class ASCIIPane extends JComponent implements ActionListener{
         map.loadMap("test.map");
         map.mappables.add(player.getMapRepresentation());
         map.updateBitMasks();
-        map.updateLOS(5, 6);
-        map.updateLOS(14, 12);
         map.displayTo(ovw, 5, 6);
         
         surface.update();
         
         // boilerplate
+        // this.setup();
         frame = new JFrame("Of Narwhales and Manticores");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(columns * char_width, rows * char_height);
@@ -61,10 +60,11 @@ public class ASCIIPane extends JComponent implements ActionListener{
         c.setLayout(new BorderLayout());
         c.add(this, BorderLayout.CENTER);
         timer = new javax.swing.Timer(30, this);
-        frame.setVisible(true);
         
         frame.addKeyListener((PlayerAI)player.getController());
         
+        // this.start();
+        frame.setVisible(true);
         timer.start();
     }
     
@@ -85,7 +85,7 @@ public class ASCIIPane extends JComponent implements ActionListener{
     }
     
     public static void main(String[] args) {
-        new ASCIIPane();
+        new ASCIIPane(null); // teh actual call would pssi in the textsurface for the main screen
     }
     
     @Override
