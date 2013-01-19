@@ -15,32 +15,12 @@ import data.DataRoot;
  */
 public class BodyBuilder {
     
-    public static final String BODY_PATH_PREFIX = "anatomy/";
+    public static final String PATH_PREFIX = "anatomy/";
     
     /**
      * The class object which is situated at the base of the resources tree
      */
     public static final Class RESOURCE_TRUNK = DataRoot.class;
-    
-    public static void loadConfTest(){
-        
-        Properties config = new Properties();
-        try{
-            config.load(RESOURCE_TRUNK.getResourceAsStream(BODY_PATH_PREFIX + "sample.body"));
-            
-            System.out.println(config.getProperty("NAME"));
-            System.out.println(config.getProperty("PARTS"));
-            
-        } catch (IOException e){
-            System.out.println("errored");
-        }
-        
-        
-    }
-    
-    public static void main(String[] args) {
-        loadConfTest();
-    }
     
     public static BodyPart loadBodyPart(String filepath){
         return loadBodyPart(filepath, new BodyPart());
@@ -50,7 +30,7 @@ public class BodyBuilder {
         Properties config = new Properties();
         
         try{
-            config.load(RESOURCE_TRUNK.getResourceAsStream(BODY_PATH_PREFIX + 
+            config.load(RESOURCE_TRUNK.getResourceAsStream(PATH_PREFIX + 
                     filepath));
             
             // grab inheritances here, in order
@@ -94,7 +74,7 @@ public class BodyBuilder {
             
             
         } catch (IOException e){
-            System.out.println("errored");
+            System.out.println("errored loading "+ PATH_PREFIX + filepath);
         }
         
         return bp;
@@ -109,7 +89,7 @@ public class BodyBuilder {
         Properties config = new Properties();
         
         try {
-            config.load(RESOURCE_TRUNK.getResourceAsStream(BODY_PATH_PREFIX + 
+            config.load(RESOURCE_TRUNK.getResourceAsStream(PATH_PREFIX + 
                     filepath));
             
             // Grab inheritances

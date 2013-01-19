@@ -1,0 +1,8 @@
+-- ON Material File Syntax --
+:Tags:
+inherits = [file path list]
+youngsModulus = [double]
+shearModulus = [double]
+bulkModulus = [double]
+density  = [double]
+yieldPoint = [double]
