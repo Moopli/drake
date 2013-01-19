@@ -80,7 +80,6 @@ public class ASCIIPane extends JComponent implements ActionListener{
         player.getController().think(); //
         ovw.fillSurface(' ', Color.black, Color.black);
         map.displayTo(ovw, player.getMapRepresentation().x, player.getMapRepresentation().y);
-        System.out.println(player.getMapRepresentation().x  + " " + player.getMapRepresentation().y);
         repaint();
     }
     
