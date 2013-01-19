@@ -16,7 +16,7 @@ public class PlayerAI extends AIController implements KeyListener {
     Command nextMove = Command.NOTYET;
     
     @Override
-    public boolean think() {
+    public int think() {
         //System.out.println(nextMove);
         switch (nextMove){
             case N:
@@ -47,10 +47,10 @@ public class PlayerAI extends AIController implements KeyListener {
                 break;
             default:
                 // wait for input, think again
-                return true;
+                return 0;
         }
         nextMove = Command.NOTYET;
-        return false;
+        return 1;
     }
 
     @Override

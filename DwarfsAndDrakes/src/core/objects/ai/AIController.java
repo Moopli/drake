@@ -22,10 +22,10 @@ public abstract class AIController {
     
     /**
      * Should we have one big function that does the thinking? Yup.
-     * @return True if the game should wait and try calling think again before 
-     * moving on.
+     * @return The number of turns to bump this object back after thinking. 0 is 
+     * a special case, meaning the game waits a bit and asks again.
      */
-    public abstract boolean think();
+    public abstract int think();
     
     
 }
