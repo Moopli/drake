@@ -39,11 +39,6 @@ public class ASCIIPane extends JComponent {
         surface = main_surface;
     }
     
-    
-    public static void main(String[] args) {
-        new ASCIIPane(null); // the actual call would pass in the textsurface for the main screen
-    }
-    
     @Override
     public void paintComponent(Graphics g){
         surface.update();
