@@ -140,9 +140,6 @@ public class BSPRect {
                 }
                 // */
             } else {
-                System.out.println(h);
-                System.out.println(this.room.size());
-                System.out.println(this.children[0].room.size());
                 for (int i = 0; i < h; i++) {
                     for (int k = 0; k < 2; k++) {
                         ArrayList herp = this.children[k].room.get(i);
