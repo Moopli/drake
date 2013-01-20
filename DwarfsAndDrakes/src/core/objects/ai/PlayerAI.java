@@ -50,7 +50,7 @@ public class PlayerAI extends AIController implements KeyListener {
                 return 0;
         }
         nextMove = Command.NOTYET;
-        return 1;
+        return 4;
     }
 
     @Override

@@ -21,7 +21,8 @@ public class ASCIIPane extends JComponent {
     public JFrame frame;
     javax.swing.Timer timer;
     Font font;
-    int rows = 50, columns = 70; int char_width = 16, char_height = 16;
+    int rows = 50, columns = 70; int char_width = 16, char_height = 16, descent = 4;
+    
     
     TextSurface surface = new TextSurface(columns, rows);
     
@@ -47,7 +48,7 @@ public class ASCIIPane extends JComponent {
                 g.setColor(surface.background[y][x]);
                 g.fillRect(x * char_width, y * char_height, char_width, char_height);
                 g.setColor(surface.foreground_color[y][x]);
-                g.drawString("" + surface.foreground[y][x], x * char_width, (y + 1) * char_height);
+                g.drawString("" + surface.foreground[y][x], x * char_width, (y + 1) * char_height - descent);
                 
             }
         }

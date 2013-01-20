@@ -10,8 +10,6 @@ import core.objects.ai.PlayerAI;
 import core.objects.map.*;
 import java.awt.Color;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,10 +19,15 @@ public class GameState {
 
     int rows = 50, columns = 70;
     TextSurface surface = new TextSurface(columns, rows);
+    TextSurface overWorld = new TextSurface(20, 20);
+    TextSurface bodyInterface = new TextSurface(15, 15);
+    TextSurface commandLine = new TextSurface(30, 8);
+    
+    ASCIIPane graphics = new ASCIIPane(surface);
+    
     ActiveArea map = new ActiveArea();
     Player player = new Player(5, 5, map);
-    TextSurface ovw;
-    ASCIIPane graphics = new ASCIIPane(surface);
+    
     Scheduler scheduler = new Scheduler(10);
     HashMap<String, Mob> mobMap = new HashMap<String, Mob>();
 
@@ -33,19 +36,28 @@ public class GameState {
         mobMap.put("player", player);
         scheduler.enqueue("player", 1);
 
-
-
-        ovw = new TextSurface(20, 20);
-        ovw.x = 3;
-        ovw.y = 3;
-
-        surface.children.put("overworld", ovw);
-
+        overWorld.x = 3;
+        overWorld.y = 3;
+        
+        bodyInterface.x = 26;
+        bodyInterface.y = 3;
+        bodyInterface.fillSurface('*', Color.black, Color.LIGHT_GRAY);
+        
+        commandLine.x = 3;
+        commandLine.y = 26;
+        commandLine.fillSurface('-', Color.black, Color.LIGHT_GRAY);
+        
+        
+        surface.children.put("overworld", overWorld);
+        surface.children.put("commandline", commandLine);
+        surface.children.put("bodyinterface", bodyInterface);
+        
+        
         surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
         map.loadMap("test.map");
         map.mappables.add(player.getMapRepresentation());
         map.updateBitMasks();
-        map.displayTo(ovw, 5, 6);
+        map.displayTo(overWorld, 5, 6);
         surface.update();
 
 
@@ -97,7 +109,7 @@ public class GameState {
             lastPos = this.mobMap.get(last).getController().think(); // this handles all mob thinking
         }
         
-        ovw.fillSurface(' ', Color.black, Color.black);
-        map.displayTo(ovw, player.getMapRepresentation().x, player.getMapRepresentation().y);
+        overWorld.fillSurface(' ', Color.black, Color.black);
+        map.displayTo(overWorld, player.getMapRepresentation().x, player.getMapRepresentation().y);
     }
 }
