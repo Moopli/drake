@@ -81,12 +81,9 @@ public class GameState {
         
         //System.out.println("herp");
         last = scheduler.oneTick(last, lastPos);
-        if (last != null){
-            System.out.println("wakkwakka");
-        }
+        
         if (last == "player") {
             // special player handling
-            System.out.println("snorfwaffle");
             lastPos = 0;
             map.updateScent(player.getMapRepresentation().x, player.getMapRepresentation().y);
             while (lastPos == 0) {
@@ -96,6 +93,8 @@ public class GameState {
                 //System.out.println("derp");
                 Thread.sleep(70);
             }
+        } else if (last != null) {
+            lastPos = this.mobMap.get(last).getController().think(); // this handles all mob thinking
         }
         
         ovw.fillSurface(' ', Color.black, Color.black);
