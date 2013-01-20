@@ -31,9 +31,6 @@ public class Scheduler {
     private int currentPosition = 0;
     
     
-    public Scheduler(){
-        this(1);
-    }
     
     public Scheduler(int size){
         for (int i = 0; i < size; i++ ){
@@ -62,9 +59,10 @@ public class Scheduler {
         int rotStart = currentPosition;
         boolean isEmpty = true;
         do {
-            isEmpty = this.pq.get(currentPosition).isEmpty();
+            //System.out.println("snurp");
             currentPosition = (currentPosition+1)%this.pq.size();
-        }while (!isEmpty && rotStart != currentPosition);
+            isEmpty = this.pq.get(currentPosition).isEmpty();
+        } while (isEmpty && rotStart != currentPosition);
         // if rotations reveal total emptiness; there are no more mobs which can 
         // act.
         
@@ -72,6 +70,7 @@ public class Scheduler {
         if (!isEmpty){
             return this.pq.get(currentPosition).removeFirst();
         }
+        
         return null; // special case -- no mob which can act
     }
     

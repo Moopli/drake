@@ -16,7 +16,7 @@ public class Mappable {
     
     public char img;
     
-    public int tileFlags = 1;
+    public int tileFlags = ActiveArea.HAS_OBJECT;
     
     public ActiveArea dungeon; // really shouldn't be puvblic, we'll refactor later
     

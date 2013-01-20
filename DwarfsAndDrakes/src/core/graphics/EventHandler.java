@@ -16,6 +16,7 @@ import java.util.*;
  * 
  * @author filip
  */
+@Deprecated
 public class EventHandler implements ActionListener, KeyListener, MouseListener, MouseMotionListener{
     
     LinkedList<AWTEvent> event_queue = new LinkedList<AWTEvent>();

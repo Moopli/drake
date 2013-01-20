@@ -61,7 +61,6 @@ public class PlayerAI extends AIController implements KeyListener {
     if (nextMove != Command.NOTYET) return;
         switch (e.getKeyCode()){
             case KeyEvent.VK_NUMPAD1:
-                System.out.println("snurp");
                 nextMove = Command.SW;
                 break;
             case KeyEvent.VK_NUMPAD2:

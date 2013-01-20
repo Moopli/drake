@@ -16,16 +16,16 @@ import java.awt.event.*;
  *
  * @author filip
  */
-public class ASCIIPane extends JComponent implements ActionListener{
+public class ASCIIPane extends JComponent {
     
-    JFrame frame;
+    public JFrame frame;
     javax.swing.Timer timer;
     Font font;
-    int rows = 50, columns = 70, char_width = 10, char_height = 16;
+    int rows = 50, columns = 70; int char_width = 16, char_height = 16;
     
     TextSurface surface = new TextSurface(columns, rows);
     
-    ActiveArea map= new ActiveArea();
+    ActiveArea map = new ActiveArea();
     
     Player player = new Player(5,5, map);
     
@@ -36,55 +36,12 @@ public class ASCIIPane extends JComponent implements ActionListener{
         // Font and dimension setup
         font = new Font("Monospaced", Font.PLAIN, char_height);
         
-        // test code
-        ovw = new TextSurface(20,20);
-        ovw.x = 3; ovw.y = 3;
-        
-        surface.children.put("overworld", ovw);
-        
-        surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
-        map.loadMap("test.map");
-        map.mappables.add(player.getMapRepresentation());
-        map.updateBitMasks();
-        map.displayTo(ovw, 5, 6);
-        
-        surface.update();
-        
-        // boilerplate
-        // this.setup();
-        frame = new JFrame("Of Narwhales and Manticores");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(columns * char_width, rows * char_height);
-        frame.setResizable(false);
-        Container c = frame.getRootPane();
-        c.setLayout(new BorderLayout());
-        c.add(this, BorderLayout.CENTER);
-        timer = new javax.swing.Timer(30, this);
-        
-        frame.addKeyListener((PlayerAI)player.getController());
-        
-        // this.start();
-        frame.setVisible(true);
-        timer.start();
+        surface = main_surface;
     }
     
-    /*
-     * Note -- this is not the place the main loop should be -- the main loop 
-     * should be with the object manager. this is just a test.
-     *
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        map.updateBitMasks();
-        map.updateLOS(player.getMapRepresentation().x, player.getMapRepresentation().y);
-        player.getController().think(); //
-        ovw.fillSurface(' ', Color.black, Color.black);
-        map.displayTo(ovw, player.getMapRepresentation().x, player.getMapRepresentation().y);
-        repaint();
-    }
     
     public static void main(String[] args) {
-        new ASCIIPane(null); // teh actual call would pssi in the textsurface for the main screen
+        new ASCIIPane(null); // the actual call would pass in the textsurface for the main screen
     }
     
     @Override
@@ -101,5 +58,14 @@ public class ASCIIPane extends JComponent implements ActionListener{
         }
     }
     
-    
+    public final void setup(){
+        frame = new JFrame("Of Narwhales and Manticores");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(columns * char_width, rows * char_height);
+        frame.setResizable(false);
+        Container c = frame.getRootPane();
+        c.setLayout(new BorderLayout());
+        c.add(this, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
 }

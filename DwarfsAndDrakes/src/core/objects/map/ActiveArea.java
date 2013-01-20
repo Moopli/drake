@@ -5,6 +5,7 @@
 package core.objects.map;
 
 import core.graphics.TextSurface;
+import java.awt.Color;
 import java.util.*;
 import java.io.*;
 /**
@@ -76,7 +77,7 @@ public class ActiveArea {
         for (int y = 0; y < playerScent.length; y++){
             for (int x = 0; x < playerScent[y].length; x++){
                 playerScent[y][x] = playerLOS[y][x] <= MAX_SMELL_DISTANCE? // is player nearby?
-                        MAX_SMELL_DISTANCE - playerLOS[y][x] : // then he leaves his scent
+                        (MAX_SMELL_DISTANCE - playerLOS[y][x])*10 : // then he leaves his scent
                         (playerScent[y][x] <= 0 ? 0 : playerScent[y][x]-1); // otherwise the scent decays
             }
         }
@@ -203,11 +204,13 @@ public class ActiveArea {
                 surface.setChar(x - cam_x, y - cam_y, this.tiles[y][x].getCh());
                 if (playerLOS[y][x] == -1){
                     surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor().darker().darker());
-                    surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack().darker().darker());
+                    //surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack().darker().darker());
                 } else {
                     surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor());
-                    surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
+                    //surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
                 }
+                Color scentColor = new Color(playerScent[y][x] * 2, playerScent[y][x] * 2, 0);
+                surface.setColorBack(x - cam_x, y - cam_y, scentColor); // uncomment background line above and comment this out
             }
         }
         
