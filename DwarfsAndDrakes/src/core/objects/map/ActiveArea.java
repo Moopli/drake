@@ -76,11 +76,15 @@ public class ActiveArea {
     public void updateScent(int px, int py){
         for (int y = 0; y < playerScent.length; y++){
             for (int x = 0; x < playerScent[y].length; x++){
-                playerScent[y][x] = playerLOS[y][x] <= MAX_SMELL_DISTANCE? // is player nearby?
+                playerScent[y][x] = (playerLOS[y][x] <= MAX_SMELL_DISTANCE &playerLOS[y][x] != -1)? // is player nearby?
                         (MAX_SMELL_DISTANCE - playerLOS[y][x])*10 : // then he leaves his scent
                         (playerScent[y][x] <= 0 ? 0 : playerScent[y][x]-1); // otherwise the scent decays
             }
         }
+    }
+    
+    public int getScent(int x, int y){
+        return playerScent[y][x];
     }
     
     /**
@@ -204,21 +208,28 @@ public class ActiveArea {
                 surface.setChar(x - cam_x, y - cam_y, this.tiles[y][x].getCh());
                 if (playerLOS[y][x] == -1){
                     surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor().darker().darker());
-                    //surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack().darker().darker());
+                    surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack().darker().darker());
                 } else {
                     surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor());
-                    //surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
+                    surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
                 }
-                Color scentColor = new Color(playerScent[y][x] * 2, playerScent[y][x] * 2, 0);
-                surface.setColorBack(x - cam_x, y - cam_y, scentColor); // uncomment background line above and comment this out
+                //Color scentColor = new Color(playerScent[y][x] * 2, playerScent[y][x] * 2, 0);
+                //surface.setColorBack(x - cam_x, y - cam_y, scentColor); // uncomment background lines above and comment this out
             }
         }
         
         for (Mappable m : mappables){
             // skip renderin this mappable if out of LOS 
-            if (playerLOS[m.y][m.x] == -1) continue;
+            if (playerLOS[m.y][m.x] == -1) {
+                //System.out.println("skipped out of LOS " + m.img);
+                continue;
+            }
             // skip rendering this mappable if it's out of the bounds
-            if (Math.abs(m.x - cam_x) >  surface.getWidth() || Math.abs(m.y - cam_y) > surface.getHeight()) continue;
+            if (m.x < cam_x || m.x >  cam_x + surface.getWidth() || m.y < cam_y || m.y > cam_y + surface.getHeight()){
+                //System.out.println("skipped out of bounds " + m.img);
+                continue;
+            }
+            //System.out.println(m.img);
             
             surface.setChar(m.x - cam_x, m.y - cam_y, m.img);
             surface.setColorFore(m.x - cam_x, m.y - cam_y, m.getColorFore());

@@ -31,6 +31,8 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     public void attack(int x, int y) {
         /*this method will probably have to be in a different class, 
          because it needs access to the map
+         * -- hakuna matata sepehr -- this.getMapRepresentation().dungeon will 
+         * provide for all of your needs.
          
          attacks the mob at x, y
          

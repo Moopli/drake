@@ -15,6 +15,7 @@ public class Mappable {
     public int x, y;
     
     public char img;
+    public Color colorBack = Color.BLACK, colorFore = Color.white;
     
     public int tileFlags = ActiveArea.HAS_OBJECT;
     
@@ -35,10 +36,10 @@ public class Mappable {
     }
     
     public Color getColorBack(){
-        return Color.black;
+        return colorBack;
     }
     public Color getColorFore(){
-        return Color.LIGHT_GRAY;
+        return colorFore;
     }
     
 }

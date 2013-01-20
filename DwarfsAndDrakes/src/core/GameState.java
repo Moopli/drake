@@ -33,9 +33,7 @@ public class GameState {
 
     public void test() {
 
-        mobMap.put("player", player);
-        scheduler.enqueue("player", 1);
-
+        // interface setup
         overWorld.x = 3;
         overWorld.y = 3;
         
@@ -51,11 +49,25 @@ public class GameState {
         surface.children.put("overworld", overWorld);
         surface.children.put("commandline", commandLine);
         surface.children.put("bodyinterface", bodyInterface);
-        
-        
         surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
+        
+        
+        // map loading
+        mobMap.put("player", player);
+        mobMap.put("mob1", Monster.createGoblin(6, 6, map));
+        mobMap.put("mob2", Monster.createGoblin(6, 7, map));
+        mobMap.put("mob3", Monster.createGoblin(7, 6, map));
+        mobMap.put("mob4", Monster.createGoblin(7, 7, map));
+        
+        
+        for (String key : mobMap.keySet()){
+            scheduler.enqueue(key, 1);
+        }
+        
         map.loadMap("test.map");
-        map.mappables.add(player.getMapRepresentation());
+        for (Mob m : mobMap.values()){
+            map.mappables.add(m.getMapRepresentation());
+        }
         map.updateBitMasks();
         map.displayTo(overWorld, 5, 6);
         surface.update();
@@ -78,7 +90,9 @@ public class GameState {
             try {
                 step();
             } catch (InterruptedException ex) {
-                System.out.println("interrupted");
+                System.out.println("interrupted -- this should never happen...."
+                        + " THIS SHOULD NEVER HAPPEN WHAT IS WRONG WITH THE WORLD "
+                        + "AAAAH"); 
             }
         }
     }
@@ -100,13 +114,15 @@ public class GameState {
             map.updateScent(player.getMapRepresentation().x, player.getMapRepresentation().y);
             while (lastPos == 0) {
                 lastPos = player.getController().think();
-                System.out.println(lastPos);
+                //System.out.println(lastPos);
                 graphics.repaint();
                 //System.out.println("derp");
                 Thread.sleep(70);
             }
         } else if (last != null) {
             lastPos = this.mobMap.get(last).getController().think(); // this handles all mob thinking
+            System.out.println(last + " is thinking");
+            System.out.println(last + " is at " + this.mobMap.get(last).getMapRepresentation().x + ", " + this.mobMap.get(last).getMapRepresentation().y);
         }
         
         overWorld.fillSurface(' ', Color.black, Color.black);
