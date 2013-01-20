@@ -4,7 +4,6 @@
  */
 package core.menus;
 
-import core.graphics.*;
 import java.util.LinkedList;
 
 /**
@@ -18,22 +17,27 @@ import java.util.LinkedList;
 public class Menu extends InterfaceObject {
     
     
-   
-    
     public LinkedList<InterfaceObject> children = new LinkedList<InterfaceObject>();
     
     
-    public Menu(int w, int h, int x, int y, InterfaceObject parent){
-        super(w, h, x, y, parent);
-        
-        
+    public Menu(int w, int h){
+        super(w, h);
+    }
+    
+    public void addChild(String name, InterfaceObject child, int x, int y){
+        children.add(child);
+        this.graphics.children.put(name, child.graphics);
+        child.graphics.x = x;
+        child.graphics.y = y;
     }
     
     @Override
     public void onHover(int mouseX, int mouseY){
         if (this.isActive && (hovering = this.isHovering(mouseX, mouseY))) {
             for (InterfaceObject child : children){
-                child.onHover(mouseX - this.graphics.x, mouseY - this.graphics.y);
+                if (child.isActive) {
+                    child.onHover(mouseX - this.graphics.x, mouseY - this.graphics.y);
+                }
             }
         }
     }
@@ -42,7 +46,9 @@ public class Menu extends InterfaceObject {
     public void onClick(){
         if (hovering && this.isActive) {
             for (InterfaceObject child : children){
-                child.onClick();
+                if (child.isActive) {
+                    child.onClick();
+                }
             }
         }
     }
@@ -50,9 +56,10 @@ public class Menu extends InterfaceObject {
     @Override
     public void updateGraphics(){
         for (InterfaceObject child: children){
-            child.updateGraphics();
-            
+            if (child.isActive) {
+                child.updateGraphics();
+            }
         }
-        
+        graphics.update();
     }
 }

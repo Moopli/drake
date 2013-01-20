@@ -7,33 +7,59 @@ package core.menus;
 import java.awt.Color;
 
 /**
- *
+ * A GUI button which acts through a clickCallback.
  * @author filip
  */
-public class Button extends InterfaceObject{
+public class Button extends InterfaceObject {
     
     String text;
     Color back = Color.black, fore = Color.lightGray, backHighlight = Color.darkGray, foreHighlight = Color.red;
     
-    Menu target;
+    ButtonCallback clickCallback;
+    ButtonCallback hoverCallback;
     
     
-    public Button(int x, int y, String text, Menu target, InterfaceObject parent){
-        super(x,y, text.length(), 1, parent);
+    public Button(String text, ButtonCallback clickCallback, ButtonCallback hoverCallback){
+        super(text.length(), 1);
         this.text = text;
-        this.target = target;
+        this.clickCallback = clickCallback;
+        this.hoverCallback = hoverCallback;
+        for (int i = 0; i < text.length(); i++) {
+            graphics.foreground[0][i] = text.charAt(i);
+        }
     }
     
     @Override
     public void onHover(int mouseX, int mouseY){
-        if (hovering = this.isHovering(mouseX, mouseY)){
+        hovering = this.isHovering(mouseX, mouseY);
+        if (hoverCallback == null) return;
+        if (hovering){
+            hoverCallback.action();
+        } else {
+            hoverCallback.unAction();
+        }
+    }
+    
+    @Override
+    public void onClick(){
+        if (clickCallback == null) return;
+        if (hovering) {
+            clickCallback.action();
+        }
+        else {
+            clickCallback.unAction();
+        }
+    }
+    
+    @Override
+    public void updateGraphics(){
+        if (hovering){
             for (int i = 0; i < graphics.getWidth(); i++) {
                 this.graphics.background[0][i] = backHighlight;
             }
             for (int i = 0; i < graphics.getWidth(); i++) {
                 this.graphics.foreground_color[0][i] = foreHighlight;
             }
-            
         } else {
             for (int i = 0; i < graphics.getWidth(); i++) {
                 this.graphics.background[0][i] = back;
@@ -43,10 +69,4 @@ public class Button extends InterfaceObject{
             }
         }
     }
-    
-    @Override
-    public void onClick(){
-        // signal handler to switch target
-    }
-    
 }

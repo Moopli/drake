@@ -22,7 +22,7 @@ public class TextRenderer extends InterfaceObject implements KeyListener {
     
     
     public TextRenderer(int lineSize, int rows){
-        super(lineSize, rows, 0, 0, null);
+        super(lineSize, rows);
         strings.add("");
         pane = new TextSurface(lineSize, rows);
         isActive = true;
