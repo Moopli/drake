@@ -57,8 +57,11 @@ public class PlayerAI extends AIController implements KeyListener {
     public void keyTyped(KeyEvent e) {}
 
     @Override
-    public void keyPressed(KeyEvent e) {
-    if (nextMove != Command.NOTYET) return;
+    public void keyPressed(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (nextMove != Command.NOTYET) return;
         switch (e.getKeyCode()){
             case KeyEvent.VK_NUMPAD1:
                 nextMove = Command.SW;
@@ -89,9 +92,6 @@ public class PlayerAI extends AIController implements KeyListener {
                 break;
         }
     }
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
     
     
     
