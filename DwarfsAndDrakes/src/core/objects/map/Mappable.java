@@ -20,12 +20,14 @@ public class Mappable {
     
     public ActiveArea dungeon; // really shouldn't be puvblic, we'll refactor later
     
-    public void moveTo(int x, int y){
+    public int moveTo(int x, int y){
         // out of bounds
-        if (x < 0 || x > dungeon.width || y < 0 || y > dungeon.height) return;
+        if (x < 0 || x > dungeon.width || y < 0 || y > dungeon.height) return -1;
         // overlaps movement-blocker
-        if ((dungeon.tileFlags[y][x] & ActiveArea.BLOCKS_MOVEMENT) != 0) return;
+        if ((dungeon.tileFlags[y][x] & ActiveArea.HAS_MOB)!=0)return 1;
+        if ((dungeon.tileFlags[y][x] & ActiveArea.BLOCKS_MOVEMENT) != 0) return 2;
         this.x = x; this.y= y;
+        return 0;
     }
     
     public int getSmellOnTile(){
