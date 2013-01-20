@@ -26,6 +26,17 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     public static final int CAN_SEE = 1, CAN_MOVE = 2, CAN_SMELL = 4;
     
     protected int statusBitMask = CAN_SEE | CAN_MOVE | CAN_SMELL;
+    protected int faction;
+
+    public void attack(int x, int y) {
+        /*this method will probably have to be in a different class, 
+         because it needs access to the map
+         
+         attacks the mob at x, y
+         
+         consider factions before attacking*/
+        System.out.println("something has been hit");
+    }
     
     @Override
     public void setController(AIController contr) {
@@ -46,42 +57,66 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     
     @Override
     public void goN() {
-        mappable.moveTo(mappable.x, mappable.y-1);
+        int move = mappable.moveTo(mappable.x, mappable.y-1);
+        if (move == 1) {
+            attack(mappable.x, mappable.y-1);
+        }
     }
 
     @Override
     public void goE() {
-        mappable.moveTo(mappable.x+1, mappable.y);
+        int move = mappable.moveTo(mappable.x+1, mappable.y);
+        if (move == 1) {
+            attack(mappable.x+1, mappable.y);
+        }
     }
 
     @Override
     public void goS() {
-        mappable.moveTo(mappable.x, mappable.y+1);
+        int move = mappable.moveTo(mappable.x, mappable.y+1);
+        if (move == 1) {
+            attack(mappable.x, mappable.y+1);
+        }
     }
 
     @Override
     public void goW() {
-        mappable.moveTo(mappable.x-1, mappable.y);
+        int move = mappable.moveTo(mappable.x-1, mappable.y);
+        if (move == 1) {
+            attack(mappable.x-1, mappable.y);
+        }
     }
 
     @Override
     public void goNW() {
-        mappable.moveTo(mappable.x-1, mappable.y-1);
+        int move = mappable.moveTo(mappable.x-1, mappable.y-1);
+        if (move == 1) {
+            attack(mappable.x-1, mappable.y-1);
+        }
     }
 
     @Override
     public void goSW() {
-        mappable.moveTo(mappable.x-1, mappable.y+1);
+        int move = mappable.moveTo(mappable.x-1, mappable.y+1);
+        if (move == 1) {
+            attack(mappable.x-1, mappable.y+1);
+        }
     }
 
     @Override
     public void goNE() {
-        mappable.moveTo(mappable.x+1, mappable.y-1);
+        int move = mappable.moveTo(mappable.x+1, mappable.y-1);
+        if (move == 1) {
+            attack(mappable.x+1, mappable.y-1);
+        }
     }
 
     @Override
     public void goSE() {
-        mappable.moveTo(mappable.x+1, mappable.y+1);
+        int move = mappable.moveTo(mappable.x+1, mappable.y+1);
+        if (move == 1) {
+            attack(mappable.x+1, mappable.y+1);
+        }
     }
 
     @Override
