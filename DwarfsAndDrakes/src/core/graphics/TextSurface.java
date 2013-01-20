@@ -14,8 +14,8 @@ import java.util.*;
 public class TextSurface {
     
     
-    int rows, columns, x = 0, y = 0;
-    HashMap<String, TextSurface> children = new HashMap<String, TextSurface>();
+    int rows, columns; public int x = 0, y = 0;
+    public HashMap<String, TextSurface> children = new HashMap<String, TextSurface>();
     
     public Color[][] background;
     public char[][] foreground;
