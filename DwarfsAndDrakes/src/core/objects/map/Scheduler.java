@@ -83,6 +83,6 @@ public class Scheduler {
      */
     public void enqueue(String id, int pos){
         assert (pos <= this.pq.size() && pos > 0);
-        this.pq.get((currentPosition+pos)%this.pq.size()).add(id);
+        this.pq.get((currentPosition+pos)%this.pq.size()).addLast(id);
     }
 }

@@ -16,6 +16,7 @@ public class InterfaceObject {
     
     InterfaceObject parent = null;
     boolean hovering;
+    public boolean isActive;
     
     public InterfaceObject(int w, int h, int x, int y, InterfaceObject parent){
         graphics = new TextSurface(w,h);
@@ -24,8 +25,8 @@ public class InterfaceObject {
     }
     
     public boolean isHovering(int mouseX, int mouseY){
-        if (mouseX < graphics.x || mouseX > graphics.x + graphics.getWidth() ) return false;
-        if (mouseY < graphics.y || mouseY > graphics.y + graphics.getHeight()) return false;
+        if (mouseX < graphics.x || mouseX >= graphics.x + graphics.getWidth() ) return false;
+        if (mouseY < graphics.y || mouseY >= graphics.y + graphics.getHeight()) return false;
         return true;
     }
     

@@ -18,7 +18,7 @@ import java.util.LinkedList;
 public class Menu extends InterfaceObject {
     
     
-    public boolean isActive;
+   
     
     public LinkedList<InterfaceObject> children = new LinkedList<InterfaceObject>();
     
