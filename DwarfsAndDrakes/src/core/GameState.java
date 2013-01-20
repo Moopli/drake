@@ -21,7 +21,7 @@ public class GameState {
     TextSurface surface = new TextSurface(columns, rows);
     TextSurface overWorld = new TextSurface(20, 20);
     TextSurface bodyInterface = new TextSurface(15, 15);
-    TextSurface commandLine = new TextSurface(30, 8);
+    TextRenderer commandLine = new TextRenderer(30, 8);
     
     ASCIIPane graphics = new ASCIIPane(surface);
     
@@ -41,13 +41,13 @@ public class GameState {
         bodyInterface.y = 3;
         bodyInterface.fillSurface('*', Color.black, Color.LIGHT_GRAY);
         
-        commandLine.x = 3;
-        commandLine.y = 26;
-        commandLine.fillSurface('-', Color.black, Color.LIGHT_GRAY);
+        commandLine.pane.x = 3;
+        commandLine.pane.y = 26;
+        commandLine.pane.fillSurface(' ', Color.black, Color.LIGHT_GRAY);
         
         
         surface.children.put("overworld", overWorld);
-        surface.children.put("commandline", commandLine);
+        surface.children.put("commandline", commandLine.pane);
         surface.children.put("bodyinterface", bodyInterface);
         surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
         
@@ -76,7 +76,9 @@ public class GameState {
         graphics.setup();
 
         graphics.frame.addKeyListener((PlayerAI) player.getController());
-
+        graphics.frame.addKeyListener(commandLine);
+        
+        
         gameLoop();
     }
 
@@ -103,6 +105,7 @@ public class GameState {
     public void step() throws InterruptedException {
         map.updateBitMasks();
         map.updateLOS(player.getMapRepresentation().x, player.getMapRepresentation().y);
+        commandLine.render();
         graphics.repaint();
         
         //System.out.println("herp");
@@ -121,8 +124,11 @@ public class GameState {
             }
         } else if (last != null) {
             lastPos = this.mobMap.get(last).getController().think(); // this handles all mob thinking
-            System.out.println(last + " is thinking");
-            System.out.println(last + " is at " + this.mobMap.get(last).getMapRepresentation().x + ", " + this.mobMap.get(last).getMapRepresentation().y);
+            //System.out.println(last + " is thinking");
+            commandLine.addString(last + " is thinking");
+            //System.out.println(last + " is at " + this.mobMap.get(last).getMapRepresentation().x + ", " + this.mobMap.get(last).getMapRepresentation().y);
+            commandLine.addString(last + " is at " + this.mobMap.get(last).getMapRepresentation().x + ", " + this.mobMap.get(last).getMapRepresentation().y);
+            Thread.sleep(30);
         }
         
         overWorld.fillSurface(' ', Color.black, Color.black);
