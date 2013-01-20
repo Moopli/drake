@@ -23,7 +23,7 @@ public class ActiveArea {
     /**
      * Flags for tileFlags bitmasks.
      */
-    public static final int HAS_OBJECT = 1, HAS_MONSTER = 2, HAS_ITEM = 4,
+    public static final int HAS_OBJECT = 1, HAS_MOB = 2, HAS_ITEM = 4,
             BLOCKS_LIGHT = 8, BLOCKS_MOVEMENT = 16, AIRTIGHT = 32, WAS_SIGHTED = 64;
     
     /**
@@ -60,7 +60,7 @@ public class ActiveArea {
     /**
      * The strength of the player's odor in each square (possibly zero)
      */
-    int[][] playerScent = new int[height][width];
+    public int[][] playerScent = new int[height][width];
     
     /**
      * The farthest distance smell "diffuses" from the player in a turn.
