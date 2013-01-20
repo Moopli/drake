@@ -32,7 +32,10 @@ public class BodyPart {
     // if an organ is vaporized, it hardly has nerves or blood vessels, does it?
     boolean supportsInfrastructure = true; 
     
-    // a body part may be wholy within another
+    // true if the part is able to carry out its functions, false otherwise.
+    boolean isActive = true;
+    
+    // a body part may be wholly within another
     BodyPart contained_inside;
     
     // ## MERGED FROM DAMAGEABLEAREA
