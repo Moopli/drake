@@ -89,6 +89,6 @@ public class Monster extends Mob {
         } else if (dir==8) {
             this.goSE();
         }
-        return 4; // how many ticks until it moves again
+        return 5; // how many ticks until it moves again
     }
 }

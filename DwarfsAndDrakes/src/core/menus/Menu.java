@@ -56,6 +56,7 @@ public class Menu extends InterfaceObject {
     @Override
     public void updateGraphics(){
         for (InterfaceObject child: children){
+            child.graphics.isActive = child.isActive;
             if (child.isActive) {
                 child.updateGraphics();
             }

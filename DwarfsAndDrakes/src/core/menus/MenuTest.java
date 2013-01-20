@@ -25,6 +25,12 @@ public class MenuTest implements ActionListener {
         topLevelMenu.isActive = true;
         topLevelMenu.graphics.fillSurface('~', Color.black, Color.red);
         
+        
+        final Menu popUpMenu = new Menu(5,10);
+        popUpMenu.isActive = false;
+        
+        popUpMenu.graphics.fillSurface('#', Color.black, Color.blue);
+        
         Button button = new Button("A button", new ButtonCallback(){
 
             @Override
@@ -35,6 +41,7 @@ public class MenuTest implements ActionListener {
             @Override
             public void unAction() {
                 System.out.println("did a click unaction");
+                popUpMenu.isActive = false;
             }
         }, new ButtonCallback(){
             boolean hovering= false;
@@ -43,6 +50,7 @@ public class MenuTest implements ActionListener {
                 if (!hovering) {
                     hovering = true;
                     System.out.println("did an action -- hover");
+                    popUpMenu.isActive = true;
                 }
             }
 
@@ -54,9 +62,10 @@ public class MenuTest implements ActionListener {
                 }
             }
         });
-        
         button.isActive = true;
         
+        topLevelMenu.addChild("popup", popUpMenu, 5, 6);
+        popUpMenu.isActive = false;
         topLevelMenu.addChild("button", button, 5, 5);
         
         pane.setup();
@@ -76,6 +85,7 @@ public class MenuTest implements ActionListener {
         if (pane.getMouseClicked()) {
             topLevelMenu.onClick();
         }
+        topLevelMenu.graphics.fillSurface('~', Color.black, Color.red);
         topLevelMenu.updateGraphics();
         pane.repaint();
         

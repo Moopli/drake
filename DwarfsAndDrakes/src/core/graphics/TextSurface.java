@@ -13,6 +13,7 @@ import java.util.*;
  */
 public class TextSurface {
     
+    public boolean isActive = true;
     
     int rows, columns; public int x = 0, y = 0;
     public HashMap<String, TextSurface> children = new HashMap<String, TextSurface>();
@@ -44,6 +45,7 @@ public class TextSurface {
      */
     public void update(){
         for (TextSurface surface: children.values()){
+            if (!surface.isActive) continue;
             surface.update();
             for (int i  = 0; i < surface.columns && i + surface.x < this.columns; i++){
                 for (int j = 0; j < surface.rows && j + surface.y < this.rows; j ++){

@@ -5,6 +5,7 @@
 package core;
 
 import core.graphics.*;
+import core.menus.Menu;
 import core.objects.*;
 import core.objects.ai.PlayerAI;
 import core.objects.map.*;
@@ -18,7 +19,11 @@ import java.util.HashMap;
 public class GameState {
 
     int rows = 50, columns = 70;
-    TextSurface surface = new TextSurface(columns, rows);
+    
+    Menu gameScreen = new Menu(columns, rows);
+    
+    
+    TextSurface surface = gameScreen.graphics;
     TextSurface overWorld = new TextSurface(20, 20);
     TextSurface bodyInterface = new TextSurface(15, 15);
     TextRenderer commandLine = new TextRenderer(30, 8);
@@ -30,7 +35,16 @@ public class GameState {
     
     Scheduler scheduler = new Scheduler(10);
     HashMap<String, Mob> mobMap = new HashMap<String, Mob>();
-
+    
+    public GameState(){}
+    
+    // a test constructor integrating the game with another menu system
+    public GameState(ASCIIPane graphics, Menu topLevelMenu){
+        this.graphics = graphics;
+        gameScreen.isActive = false;
+        topLevelMenu.addChild("gamescreen", gameScreen, 0, 0);
+    }
+    
     public void test() {
 
         // interface setup
