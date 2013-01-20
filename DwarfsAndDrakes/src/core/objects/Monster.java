@@ -13,56 +13,56 @@ import core.objects.map.ActiveArea;
 public class Monster extends Mob {
 
     public Monster(int x, int y, ActiveArea dungeon) {
-        this.getRep().x = x;
-        this.getRep().y = y;
-        this.getRep().dungeon = dungeon;
+        this.getMapRepresentation().x = x;
+        this.getMapRepresentation().y = y;
+        this.getMapRepresentation().dungeon = dungeon;
     }
     
     public static Monster createGoblin(int x, int y, ActiveArea dungeon){
         Monster monster=new Monster(x,y,dungeon);
         monster.moveDelay=3;
-        monster.getRep().img = 'G';
-        monster.getRep().tileFlags=ActiveArea.HAS_OBJECT|ActiveArea.BLOCKS_MOVEMENT|ActiveArea.AIRTIGHT|ActiveArea.HAS_MOB;
+        monster.getMapRepresentation().img = 'G';
+        monster.getMapRepresentation().tileFlags=ActiveArea.HAS_OBJECT|ActiveArea.BLOCKS_MOVEMENT|ActiveArea.AIRTIGHT|ActiveArea.HAS_MOB;
         monster.faction=1;
         return monster;
     }
     
     public boolean think(){
         int smell=0, dir=4;
-        if (this.getRep().dungeon.playerScent[this.getRep().x-1][this.getRep().y-1]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x-1][this.getRep().y-1];
+        if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x-1][this.getMapRepresentation().y-1]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x-1][this.getMapRepresentation().y-1];
             dir=0;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x][this.getRep().y-1]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x][this.getRep().y-1];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x][this.getMapRepresentation().y-1]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x][this.getMapRepresentation().y-1];
             dir=1;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x+1][this.getRep().y-1]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x+1][this.getRep().y-1];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x+1][this.getMapRepresentation().y-1]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x+1][this.getMapRepresentation().y-1];
             dir=2;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x-1][this.getRep().y]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x-1][this.getRep().y];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x-1][this.getMapRepresentation().y]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x-1][this.getMapRepresentation().y];
             dir=3;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x][this.getRep().y]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x][this.getRep().y];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x][this.getMapRepresentation().y]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x][this.getMapRepresentation().y];
             dir=4;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x+1][this.getRep().y]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x+1][this.getRep().y];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x+1][this.getMapRepresentation().y]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x+1][this.getMapRepresentation().y];
             dir=5;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x-1][this.getRep().y+1]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x-1][this.getRep().y+1];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x-1][this.getMapRepresentation().y+1]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x-1][this.getMapRepresentation().y+1];
             dir=6;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x][this.getRep().y+1]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x][this.getRep().y+1];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x][this.getMapRepresentation().y+1]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x][this.getMapRepresentation().y+1];
             dir=7;
             //System.out.println(dir+" "+smell);
-        }if (this.getRep().dungeon.playerScent[this.getRep().x+1][this.getRep().y+1]>smell){
-            smell=this.getRep().dungeon.playerScent[this.getRep().x+1][this.getRep().y+1];
+        }if (this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x+1][this.getMapRepresentation().y+1]>smell){
+            smell=this.getMapRepresentation().dungeon.playerScent[this.getMapRepresentation().x+1][this.getMapRepresentation().y+1];
             dir=8;
             //System.out.println(dir+" "+smell);
         }
