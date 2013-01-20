@@ -19,7 +19,7 @@ public class Player extends Mob {
         this.getMapRepresentation().y = y;
         this.getMapRepresentation().img = '@';
         this.getMapRepresentation().dungeon = dungeon;
-        this.getMapRepresentation().tileFlags=ActiveArea.HAS_OBJECT|ActiveArea.BLOCKS_MOVEMENT|ActiveArea.AIRTIGHT|ActiveArea.HAS_MOB;
+        this.getMapRepresentation().tileFlags=ActiveArea.HAS_OBJECT|ActiveArea.BLOCKS_MOVEMENT|ActiveArea.HAS_MOB;
         this.faction=0;
     }
     
