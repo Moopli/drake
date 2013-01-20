@@ -10,6 +10,7 @@ import java.util.HashMap;
  *
  * @author filip
  */
+@Deprecated
 public class MenuHandler {
     
     HashMap<String, Menu> menuMap = new HashMap<String, Menu>();

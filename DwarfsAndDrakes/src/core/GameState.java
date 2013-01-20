@@ -81,7 +81,7 @@ public class GameState {
         
         gameLoop();
     }
-
+    
     public static void main(String[] args) {
         new GameState().test();
     }
