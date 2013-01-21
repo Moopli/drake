@@ -10,8 +10,6 @@ import java.net.URL;
  */
 public class MapGenerator {
     
-    public static final Class RESOURCE_TRUNK = DataRoot.class;
-    
     public static final String PATH_PREFIX = "maps/";
     
     public static void generateMap(int w, int h, int goblinses, String path) {
@@ -54,7 +52,7 @@ public class MapGenerator {
         }
         
         try {
-            FileWriter fstream = new FileWriter(path);
+            FileWriter fstream = new FileWriter(PATH_PREFIX + path);
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(dungeon.toString());
             //Close the output stream
@@ -65,6 +63,6 @@ public class MapGenerator {
     }
     
     public static void main(String[] args) {
-        generateMap(40, 40, 12, "test.map");
+        generateMap(60, 60, 32, "test.map");
     }
 }

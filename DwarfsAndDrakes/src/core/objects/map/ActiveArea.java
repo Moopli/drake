@@ -171,16 +171,43 @@ public class ActiveArea {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
             
+            int y = 0;
+            int x = 0;
             while ((strLine = br.readLine()) != null) {
                 ArrayList<DungeonTile> line = new ArrayList<DungeonTile>();
+                x = 0;
                 for (char tile: strLine.toCharArray()) {
                     for (DungeonTile dt : DungeonTile.values()){
                         if (tile == dt.getCh()){
                             line.add(dt);
-                        }
+                        } 
                     }
+                    if (tile == '@'){
+                        Mappable m = new Mappable();
+                        m.x = x;
+                        m.y = y;
+                        m.img = '@';
+                        m.colorBack = Color.BLACK;
+                        m.colorFore = Color.WHITE;
+                        m.tileFlags |= ActiveArea.BLOCKS_MOVEMENT|ActiveArea.HAS_MOB;
+                        m.dungeon = this;
+                        mappables.add(m);
+                        line.add(DungeonTile.FLOOR);
+                    } else if (tile == 'g'){
+                        Mappable m = new Mappable();
+                        m.x = x;
+                        m.y = y;
+                        m.img = 'g';
+                        m.colorBack = Color.BLACK;
+                        m.colorFore = Color.GREEN.darker().darker();
+                        m.tileFlags |= ActiveArea.BLOCKS_MOVEMENT|ActiveArea.HAS_MOB;
+                        m.dungeon = this;
+                        mappables.add(m);
+                        line.add(DungeonTile.FLOOR);
+                    } 
+                    x++;
                 }
-                
+                y++;
                 map.add(line);
             }
             in.close();
@@ -192,7 +219,7 @@ public class ActiveArea {
         this.tiles = new DungeonTile[map.size()][map.get(0).size()];
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j] = map.get(i).get(j);
+                tiles[i][j]  = map.get(i).get(j);
             }
         }
         this.height = this.tiles.length;
