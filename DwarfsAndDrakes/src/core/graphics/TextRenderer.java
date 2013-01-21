@@ -30,13 +30,13 @@ public class TextRenderer extends InterfaceObject implements KeyListener {
     
     
     public void render(){
-        System.out.println(strings);
+        //System.out.println(strings);
         pane.fillSurface(' ', Color.black, Color.BLACK);
         for (int i = 0; i < pane.rows && i < strings.size(); i++) {
             drawString(strings.get(strings.size() - i - 1), pane, 0, pane.rows - i - 1, Color.WHITE, Color.BLACK);
         }
         if (isActive){
-            pane.setColorBack(strings.get(strings.size()-1).length(), pane.rows-1, Color.red);
+            pane.setColorBack(strings.get(strings.size()-1).length(), pane.rows-1, Color.blue.darker().darker());
         }
     }
     

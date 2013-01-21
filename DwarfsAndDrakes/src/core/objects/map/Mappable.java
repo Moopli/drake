@@ -45,4 +45,8 @@ public class Mappable {
         return colorFore;
     }
     
+    public DungeonTile getTileBelow(){
+        return dungeon.tiles[y][x];
+    }
+    
 }

@@ -31,7 +31,7 @@ public class GameState {
     ASCIIPane graphics = new ASCIIPane(surface);
     
     ActiveArea map = new ActiveArea();
-    Player player = new Player(5, 5, map);
+    Player player;
     
     Scheduler scheduler = new Scheduler(10);
     HashMap<String, Mob> mobMap = new HashMap<String, Mob>();
@@ -68,27 +68,28 @@ public class GameState {
         
         // map loading
         mobMap.put("player", player);
-        mobMap.put("mob1", Monster.createGoblin(6, 6, map));
-        mobMap.put("mob2", Monster.createGoblin(6, 7, map));
-        mobMap.put("mob3", Monster.createGoblin(7, 6, map));
-        mobMap.put("mob4", Monster.createGoblin(7, 7, map));
-        
-        
+        map.loadMap("maps/test.map");
+        for (Mappable m : map.mappables){
+            if (m.img == 'g'){
+                Monster goblin = Monster.createGoblin(m.x, m.y, map);
+                goblin.mappable = m;
+                m.mob = goblin;
+                mobMap.put(goblin.toString(), goblin);
+            } else if (m.img == '@'){
+                player  = new Player(m.x, m.y, map);
+                player.mappable = m;
+                m.mob = player;
+            }
+        }
         for (String key : mobMap.keySet()){
             scheduler.enqueue(key, 1);
-        }
-        
-        map.loadMap("test.map");
-        for (Mob m : mobMap.values()){
-            map.mappables.add(m.getMapRepresentation());
         }
         map.updateBitMasks();
         map.displayTo(overWorld, 5, 6);
         surface.update();
-
+        // end map loading
 
         graphics.setup();
-
         graphics.frame.addKeyListener((PlayerAI) player.getController());
         graphics.frame.addKeyListener(commandLine);
         
@@ -132,6 +133,10 @@ public class GameState {
             while (lastPos == 0) {
                 lastPos = player.getController().think();
                 //System.out.println(lastPos);
+                if (player.getMapRepresentation().getTileBelow() == DungeonTile.STAIR){
+                    commandLine.addString("You foolishly enter a pit and fall... seriously, what were you expecting, butterflies?");
+                    commandLine.addString("");
+                }
                 graphics.repaint();
                 //System.out.println("derp");
                 Thread.sleep(70);
@@ -139,9 +144,9 @@ public class GameState {
         } else if (last != null) {
             lastPos = this.mobMap.get(last).getController().think(); // this handles all mob thinking
             //System.out.println(last + " is thinking");
-            commandLine.addString(last + " is thinking");
+            //commandLine.addString(last + " is thinking");
             //System.out.println(last + " is at " + this.mobMap.get(last).getMapRepresentation().x + ", " + this.mobMap.get(last).getMapRepresentation().y);
-            commandLine.addString(last + " is at " + this.mobMap.get(last).getMapRepresentation().x + ", " + this.mobMap.get(last).getMapRepresentation().y);
+            //commandLine.addString(last + " is at " + this.mobMap.get(last).getMapRepresentation().x + ", " + this.mobMap.get(last).getMapRepresentation().y);
             Thread.sleep(30);
         }
         

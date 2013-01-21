@@ -27,7 +27,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     public static final int CAN_SEE = 1, CAN_MOVE = 2, CAN_SMELL = 4;
     
     protected int statusBitMask = CAN_SEE | CAN_MOVE | CAN_SMELL;
-    protected int faction;
+    protected int faction = 0;
     
     public Mob(){
         mappable.mob = this;
@@ -35,17 +35,17 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     }
     
     public void attack(int x, int y) {
-        /*should consider factions before attacking*/
-        System.out.println("something has been hit");
-        GameState.commandLine.addString("something has been hit");
         Weapon w = this.body.procureWeaponry();
         if (w == null){
-            w = new Weapon(); // a basic "push" attack
+            w = new Weapon(); // a basic "pseudopod" attack
         }
         Mappable m = this.mappable.dungeon.getMappableAt(x, y);
         if (m.mob != null){
+            if (m.mob.faction == this.faction) return; // no friendly fire
+            GameState.commandLine.addString("Blood and ichor fly as pseudopods gouge about.");
+            //System.out.println("something has been hit");
             m.mob.body.delegateDamage(w.material, w.contactArea, w.hitForce);
-            m.dungeon.dropGore(m.x, m.y, 26);
+            mappable.dungeon.dropGore(m.x, m.y, 26);
         }
     }
     
@@ -59,7 +59,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
         return brain;
     }
     
-    private Mappable mappable = new Mappable();
+    public Mappable mappable = new Mappable();
     
     @Override
     public Mappable getMapRepresentation() {

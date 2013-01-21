@@ -61,7 +61,7 @@ public enum DungeonTile {
         }
         @Override
         public Color getCharColor(){
-            return new Color(70, 70, 70);
+            return new Color(0, 0, 0);
         }
     }
     
