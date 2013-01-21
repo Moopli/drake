@@ -50,6 +50,19 @@ public enum DungeonTile {
         public Color getCharColor(){
             return Color.cyan.darker();
         }
+    }, STAIR {
+        @Override
+        public Color getColorBack(){
+            return new Color(100, 100, 100);
+        }
+        @Override
+        public char getCh(){
+            return '<';
+        }
+        @Override
+        public Color getCharColor(){
+            return new Color(70, 70, 70);
+        }
     }
     
     ;
