@@ -13,6 +13,7 @@ import core.objects.map.ActiveArea;
 public class Player extends Mob {
     
     public Player( int x, int y, ActiveArea dungeon){
+        super();
         this.brain = new core.objects.ai.PlayerAI();
         this.brain.setControlled(this);
         this.getMapRepresentation().x = x;

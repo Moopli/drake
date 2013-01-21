@@ -4,9 +4,13 @@
  */
 package core.objects.anatomy;
 
+import core.objects.equips.Weapon;
+import core.objects.flavor.FlavorHolder;
+import core.objects.materials.MaterialLoader;
 import java.io.IOException;
 import java.util.Properties;
 import data.DataRoot;
+import java.util.ListIterator;
 
 
 /**
@@ -61,17 +65,35 @@ public class BodyBuilder {
                     bp.functionsRequired.add(func);
                 }
             }
-            
+            if (config.containsValue("material")){
+                bp.material = MaterialLoader.loadMaterial(config.getProperty("material"));
+            }
             if (config.containsKey("volume")){
-                bp.volume = Integer.parseInt(config.getProperty("volume"));
+                bp.material.volume = Integer.parseInt(config.getProperty("volume"));
             }
             if (config.containsKey("length")){
-                bp.volume = Integer.parseInt(config.getProperty("length"));
-            }
-            if (config.containsKey("hardness")){
-                bp.volume = Integer.parseInt(config.getProperty("hardness"));
+                bp.material.length = Integer.parseInt(config.getProperty("length"));
             }
             
+            if (config.containsKey("max_wear")){
+                bp.material.length = Double.parseDouble(config.getProperty("max_wear"));
+            }
+            
+            if (config.containsKey("flavor")){
+                bp.flavor = FlavorHolder.loadFlavor(config.getProperty("flavor"));
+            }
+            
+            if (config.containsKey("weapon")){
+                bp.intrinsicWeapon = Weapon.loadWeapon(config.getProperty("weapon"));
+            }
+            
+            
+            if (config.containsKey("armor_types")){
+                bp.isArmorable = true;
+                for (String eqp : config.getProperty("armor_types").split(" ")){
+                    bp.equipTags.add(eqp);
+                }
+            }
             
         } catch (IOException e){
             System.out.println("errored loading "+ PATH_PREFIX + filepath);
@@ -103,12 +125,37 @@ public class BodyBuilder {
             if (config.containsKey("parts")){
                 for (String path : config.getProperty("parts").split(" ")){
                     BodyPart part = loadBodyPart(path);
+                    if (part.intrinsicWeapon != null){
+                        b.instrinsicWeapons.put(part, part.intrinsicWeapon);
+                    }
                     b.bodyparts.put(part.internalName, part);
                 }
             }
             
             
-            // TODO connect bodyparts
+            // puts body parts inside the others they are attached to
+            for (BodyPart bp : b.bodyparts.values()){
+                if (config.containsKey(bp.internalName)) {
+                    for (String connect : config.getProperty(bp.internalName).split(" ")){
+                        BodyPart bp2 = b.bodyparts.get(connect);
+                        bp.contained_parts.add(bp2);
+                        bp2.contained_inside = bp;
+                    }
+                }
+            }
+            // finds body parts "within" each other, and repairs connection
+            for (BodyPart bp : b.bodyparts.values()){
+                ListIterator<BodyPart> iter = bp.contained_parts.listIterator();
+                while (iter.hasNext()){
+                    BodyPart bp2 = iter.next();
+                    if (bp2.contained_parts.contains(bp)){
+                        iter.remove();
+                        bp2.contained_parts.remove(bp);
+                        bp.connected.add(bp2);
+                        bp2.connected.add(bp);
+                    }
+                }
+            }
             
             
             

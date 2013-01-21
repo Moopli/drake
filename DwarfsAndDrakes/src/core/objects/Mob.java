@@ -4,6 +4,7 @@
  */
 package core.objects;
 
+import core.GameState;
 import core.objects.ai.*;
 import core.objects.anatomy.*;
 import core.objects.equips.*;
@@ -27,17 +28,25 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     
     protected int statusBitMask = CAN_SEE | CAN_MOVE | CAN_SMELL;
     protected int faction;
-
+    
+    public Mob(){
+        mappable.mob = this;
+        this.body = BodyBuilder.loadBody("blob.body");
+    }
+    
     public void attack(int x, int y) {
-        /*this method will probably have to be in a different class, 
-         because it needs access to the map
-         * -- hakuna matata sepehr -- this.getMapRepresentation().dungeon will 
-         * provide for all of your needs.
-         
-         attacks the mob at x, y
-         
-         consider factions before attacking*/
+        /*should consider factions before attacking*/
         System.out.println("something has been hit");
+        GameState.commandLine.addString("something has been hit");
+        Weapon w = this.body.procureWeaponry();
+        if (w == null){
+            w = new Weapon(); // a basic "push" attack
+        }
+        Mappable m = this.mappable.dungeon.getMappableAt(x, y);
+        if (m.mob != null){
+            m.mob.body.delegateDamage(w.material, w.contactArea, w.hitForce);
+            m.dungeon.dropGore(m.x, m.y, 26);
+        }
     }
     
     @Override
@@ -59,6 +68,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     
     @Override
     public void goN() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x, mappable.y-1);
         if (move == 1) {
             attack(mappable.x, mappable.y-1);
@@ -67,6 +77,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
 
     @Override
     public void goE() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x+1, mappable.y);
         if (move == 1) {
             attack(mappable.x+1, mappable.y);
@@ -75,6 +86,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
 
     @Override
     public void goS() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x, mappable.y+1);
         if (move == 1) {
             attack(mappable.x, mappable.y+1);
@@ -83,6 +95,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
 
     @Override
     public void goW() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x-1, mappable.y);
         if (move == 1) {
             attack(mappable.x-1, mappable.y);
@@ -91,6 +104,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
 
     @Override
     public void goNW() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x-1, mappable.y-1);
         if (move == 1) {
             attack(mappable.x-1, mappable.y-1);
@@ -99,6 +113,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
 
     @Override
     public void goSW() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x-1, mappable.y+1);
         if (move == 1) {
             attack(mappable.x-1, mappable.y+1);
@@ -107,6 +122,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
 
     @Override
     public void goNE() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x+1, mappable.y-1);
         if (move == 1) {
             attack(mappable.x+1, mappable.y-1);
@@ -115,6 +131,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
 
     @Override
     public void goSE() {
+        if ((statusBitMask & CAN_MOVE) == 0) return;
         int move = mappable.moveTo(mappable.x+1, mappable.y+1);
         if (move == 1) {
             attack(mappable.x+1, mappable.y+1);
@@ -132,7 +149,7 @@ public class Mob implements HasAI, IsMappable, HasInventory, HasBody {
     }
     
     Inventory inventory = new Inventory(); 
-    // note inventory constructor should set capacity
+    // note inventory constructor really should set capacity, but there's a default
     
     @Override
     public Inventory getInventory() {

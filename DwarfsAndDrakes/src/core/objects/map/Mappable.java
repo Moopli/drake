@@ -4,6 +4,7 @@
  */
 package core.objects.map;
 
+import core.objects.Mob;
 import java.awt.Color;
 
 /**
@@ -18,6 +19,8 @@ public class Mappable {
     public Color colorBack = Color.BLACK, colorFore = Color.white;
     
     public int tileFlags = ActiveArea.HAS_OBJECT;
+    
+    public Mob mob; // the mappable may belong to a Mob
     
     public ActiveArea dungeon; // really shouldn't be puvblic, we'll refactor later
     

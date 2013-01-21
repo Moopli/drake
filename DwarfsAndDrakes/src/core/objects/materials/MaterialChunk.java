@@ -60,6 +60,12 @@ public class MaterialChunk extends Material {
         double b_elastmod = sh_factor*b.shearModulus + c_factor*b.bulkModulus;
         a.applyStress(stress_a, a_elastmod);
         b.applyStress(stress_b, b_elastmod);
+        
+        /*
+         * TODO -- Calculate and return the amount of unabsorbed and undeflected 
+         * collision energy. This can lead to collisions through multiple parts.
+         */
+        System.out.println("Whoo smash " + a.wear + " " + b.wear);
     }
     
     public static final double ELASTIC_WEAR_RATE = 0.1;

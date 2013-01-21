@@ -15,6 +15,7 @@ import java.awt.Color;
 public class Monster extends Mob {
 
     public Monster(int x, int y, ActiveArea dungeon) {
+        super();
         this.getMapRepresentation().x = x;
         this.getMapRepresentation().y = y;
         this.getMapRepresentation().dungeon = dungeon;
@@ -31,7 +32,6 @@ public class Monster extends Mob {
         return monster;
     }
     
-    // getScent(this.getMapRepresentation().x,this.getMapRepresentation().y)
     
     public int think(){
         int smell=0, dir=4;

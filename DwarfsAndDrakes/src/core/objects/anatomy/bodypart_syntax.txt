@@ -16,6 +16,7 @@ problem. Example:
 name = human_hand
 functions = GRASPING WEAPON_MELEE
 required_functions = OXYGEN THOUGHT BLOOD
+armor_types = HAND
 # weapon_template key only necessary if this part has a weapon function
 weapon_template = human_fist.weapon
 # file of descriptions, backstories, in-game-name
@@ -23,7 +24,7 @@ flavor = hand.flavor
 # damage values
 volume = 12
 length = 18
-hardness = 3
+material = flesh.material
 --- EOF ---
 
 The inheritance will be quite simple -- all data from an inherited part or file 
@@ -83,7 +84,7 @@ required_functions = THOUGHT FOOD
 flavor = worm_body_part.flavor
 volume = 5
 length = 7
-hardness = 2
+max_wear = 3
 material = flesh.material
 equip = WORM_MAIL
 --- EOF ---
@@ -96,7 +97,7 @@ weapon_template = worm_sucker.weapon
 flavor = worm_mouth.flavor
 volume = 1
 length = 1
-hardness = 1
+max_wear = 3
 material = flesh.material
 --- EOF ---
 
@@ -107,7 +108,7 @@ required_functions = FOOD
 flavor = worm_brain.flavor
 volume = 1
 length = 1
-hardness = 1
+max_wear = 3
 material = flesh.material
 --- EOF ---
 
@@ -117,7 +118,7 @@ required_functions = FOOD THOUGHT
 flavor = worm_gut.flavor
 volume = 3
 length = 5
-hardness = 1
+max_wear = 3
 material = flesh.material
 --- EOF ---
 

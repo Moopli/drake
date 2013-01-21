@@ -26,7 +26,7 @@ public class GameState {
     TextSurface surface = gameScreen.graphics;
     TextSurface overWorld = new TextSurface(20, 20);
     TextSurface bodyInterface = new TextSurface(15, 15);
-    TextRenderer commandLine = new TextRenderer(30, 8);
+    public static TextRenderer commandLine = new TextRenderer(30, 8);
     
     ASCIIPane graphics = new ASCIIPane(surface);
     

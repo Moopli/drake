@@ -7,6 +7,8 @@ package core.objects.anatomy;
 import core.objects.materials.Material;
 import java.util.*;
 import core.objects.equips.*;
+import core.objects.flavor.FlavorHolder;
+import core.objects.materials.MaterialChunk;
 import core.objects.materials.MaterialLoader;
 
 
@@ -28,6 +30,9 @@ public class BodyPart {
     public HashSet<String> functionsProvided = new HashSet<String>();
     public HashSet<String> functionsRequired = new HashSet<String>();
     public HashSet<String> equipTags = new HashSet<String>();
+    
+    public FlavorHolder flavor;
+    public Weapon intrinsicWeapon;
     
     // if an organ is vaporized, it hardly has nerves or blood vessels, does it?
     boolean supportsInfrastructure = true; 
@@ -68,16 +73,19 @@ public class BodyPart {
      * 
      */
     
-    public void damage(int contact_area, int contact_impulse){
+    public void damage(MaterialChunk weaponMaterial, double contactArea, double energy){
+        MaterialChunk.collision(material, weaponMaterial, contactArea, energy);
         
+        isActive = material.wear <= maxWear;
     }
+    
     
     /**
      * The material this BodyPart is made of. For most "normal" creatures, that 
      * would be flesh. For others it would be jello. For others it would be 
      * salt. And so on and so forth.
      */
-    Material material = MaterialLoader.makeElasticGoo();
+    MaterialChunk material = MaterialLoader.makeElasticGoo();
     
     
     /**

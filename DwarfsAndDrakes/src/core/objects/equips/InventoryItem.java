@@ -5,7 +5,7 @@
 package core.objects.equips;
 
 import core.objects.flavor.*;
-import core.objects.materials.Material;
+import core.objects.materials.MaterialChunk;
 import core.objects.materials.MaterialLoader;
 
 /**
@@ -16,7 +16,7 @@ public class InventoryItem {
     
     private FlavorHolder flavor;
     
-    private Material material = MaterialLoader.makeElasticGoo();
+    private MaterialChunk material = MaterialLoader.makeElasticGoo();
     
     
 }
