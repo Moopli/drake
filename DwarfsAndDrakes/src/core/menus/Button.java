@@ -45,6 +45,7 @@ public class Button extends InterfaceObject {
         if (clickCallback == null) return;
         if (hovering) {
             clickCallback.action();
+            hovering=false;
         }
         else {
             clickCallback.unAction();

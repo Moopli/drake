@@ -67,7 +67,7 @@ public class ActiveArea {
         // visuals yay
         for (int i = 0; i < this.gore.length; i++) {
             for (int j = 0; j < this.gore[i].length; j++) {
-                gore[i][j] -= 1;
+                gore[i][j] = gore[i][j] <= 0? 0 : gore[i][j] - 1;
             }
         }
     }
@@ -254,6 +254,7 @@ public class ActiveArea {
                     surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack().darker().darker());
                 } else {
                     surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor());
+                    //System.out.println(gore[y][x]);
                     if (gore[y][x] > 15){
                         surface.setColorBack(x - cam_x, y - cam_y, new Color(Math.min(this.gore[y][x], 125), 0, 0));
                     }else {

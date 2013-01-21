@@ -9,6 +9,7 @@ import core.menus.Menu;
 import core.objects.*;
 import core.objects.ai.PlayerAI;
 import core.objects.map.*;
+import core.objects.map.generation.MapGenerator;
 import java.awt.Color;
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ import java.util.HashMap;
 public class GameState {
 
     int rows = 50, columns = 70;
-    
+    int goblins=20;
     Menu gameScreen = new Menu(columns, rows);
     
     
@@ -51,6 +52,7 @@ public class GameState {
         overWorld.x = 3;
         overWorld.y = 3;
         
+        
         bodyInterface.x = 26;
         bodyInterface.y = 3;
         bodyInterface.fillSurface('*', Color.black, Color.LIGHT_GRAY);
@@ -65,8 +67,8 @@ public class GameState {
         surface.children.put("bodyinterface", bodyInterface);
         surface.fillSurface('~', Color.red.darker().darker(), Color.red.darker());
         
-        
         // map loading
+        MapGenerator.generateMap(60, 60, goblins, "test.map");
         mobMap.put("player", player);
         map.loadMap("maps/test.map");
         for (Mappable m : map.mappables){
@@ -93,12 +95,13 @@ public class GameState {
         graphics.frame.addKeyListener((PlayerAI) player.getController());
         graphics.frame.addKeyListener(commandLine);
         
-        
-        gameLoop();
+
     }
     
     public static void main(String[] args) {
-        new GameState().test();
+        GameState game=new GameState();
+        game.test();
+        game.gameLoop();
     }
 
     public void gameLoop() {
@@ -106,6 +109,10 @@ public class GameState {
         while (true) {
             try {
                 step();
+                if (player.getMapRepresentation().getTileBelow().getCh()=='<') {
+                    goblins+=10;
+                    test();
+                }
             } catch (InterruptedException ex) {
                 System.out.println("interrupted -- this should never happen...."
                         + " THIS SHOULD NEVER HAPPEN WHAT IS WRONG WITH THE WORLD "
