@@ -4,6 +4,8 @@
  */
 package core.objects.anatomy;
 
+import core.objects.equips.Weapon;
+import core.objects.materials.MaterialChunk;
 import java.util.*;
 
 /**
@@ -14,6 +16,8 @@ public class Body {
     
     
     public HashMap<String, BodyPart> bodyparts = new HashMap<String, BodyPart>();
+    public HashMap<BodyPart, Weapon> instrinsicWeapons = new HashMap<BodyPart, Weapon>();
+    
     
     /**
      * Breaks the body up into maximal contiguous sections, then updates the 
@@ -123,12 +127,31 @@ public class Body {
      * organs directly hit here, and call floodfill.
      */
     
-    public void delegateDamage(){
+    public void delegateDamage(MaterialChunk weaponMaterial, double contactArea, double energy){
         
+        // picks the part to hurt
+        // must replace this with a proper size-based weighted random pick
+        BodyPart damaged = this.bodyparts.values().iterator().next(); 
         
+        damaged.damage(weaponMaterial, contactArea, energy);
         
+        if (!damaged.isActive){
+            updateFunctioning();
+        }
     }
     
-    
+    /**
+     * Produces an intrinsic weapon this body is capable of making use of.
+     * @return Some Weapon or other. The only guarantee is that the weapon is 
+     * part of this body.
+     */
+    public Weapon procureWeaponry(){
+        for (BodyPart bp : this.instrinsicWeapons.keySet()){
+            if (bp.isActive){
+                return this.instrinsicWeapons.get(bp);
+            }
+        }
+        return null;
+    }
     
 }

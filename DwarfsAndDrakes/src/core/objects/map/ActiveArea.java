@@ -31,6 +31,15 @@ public class ActiveArea {
      */
     int[][] tileFlags = new int[height][width];
     
+    /**
+     * The higher the number, the bloodier the floor
+     */
+    int[][] gore = new int[height][width];
+    
+    public void dropGore(int x, int y, int amt){
+        gore[Math.max(0, Math.min(y, gore.length-1))][Math.max(0, Math.min(x, gore[0].length-1))] += amt;
+    }
+    
     public ActiveArea(){
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
@@ -54,6 +63,12 @@ public class ActiveArea {
         
         for (Mappable m : mappables){
             tileFlags[m.y][m.x] |= m.tileFlags;
+        }
+        // visuals yay
+        for (int i = 0; i < this.gore.length; i++) {
+            for (int j = 0; j < this.gore[i].length; j++) {
+                gore[i][j] -= 1;
+            }
         }
     }
     
@@ -185,6 +200,7 @@ public class ActiveArea {
         this.playerLOS = new int[height][width];
         this.playerScent = new int[height][width];
         this.tileFlags = new int[height][width];
+        this.gore = new int[height][width];
         this.updateBitMasks();
         
         
@@ -211,7 +227,11 @@ public class ActiveArea {
                     surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack().darker().darker());
                 } else {
                     surface.setColorFore(x - cam_x, y - cam_y, this.tiles[y][x].getCharColor());
-                    surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
+                    if (gore[y][x] > 15){
+                        surface.setColorBack(x - cam_x, y - cam_y, new Color(Math.min(this.gore[y][x], 125), 0, 0));
+                    }else {
+                        surface.setColorBack(x - cam_x, y - cam_y, this.tiles[y][x].getColorBack());
+                    }
                 }
                 //Color scentColor = new Color(playerScent[y][x] * 2, playerScent[y][x] * 2, 0);
                 //surface.setColorBack(x - cam_x, y - cam_y, scentColor); // uncomment background lines above and comment this out
@@ -236,5 +256,16 @@ public class ActiveArea {
             surface.setColorBack(m.x - cam_x, m.y - cam_y, m.getColorBack());
         }
         
+    }
+    
+    public Mappable getMappableAt(int x, int y){
+        if ((this.tileFlags[y][x] & ActiveArea.HAS_OBJECT) == 0) return null;
+        if (mappables.isEmpty()) return null;
+        for (Mappable m : mappables){
+            if (m.x == x && m.y == y){
+                return m;
+            }
+        }
+        return null;
     }
 }

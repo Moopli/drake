@@ -5,7 +5,6 @@
 package core.objects.equips;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 /**
  *
@@ -14,7 +13,7 @@ import java.util.Map.Entry;
 public class Inventory {
     
     
-    /*
+    /* 
      * (note on the mapping: item name -> list of same item (a stack)
      */
     public HashMap<String, ArrayList<InventoryItem>> inventory;
