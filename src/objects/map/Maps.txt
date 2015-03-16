@@ -1,0 +1,26 @@
+## How the Maps Work ##
+There are two main kinds of map -- the Dungeon map, and the OverWorld map.
+
+A finite map (that is, the dungeon map) is easy to simulate; but an infinite map 
+(the OverWorld) not so much. So, here's the plan:
+
+The OverWorld will be split into "chunks", finite blocks of overworld map; 
+linked together in a WorldMap object.
+
+Anyways -- The only part of the overworld which is simulated is the part visible 
+to the player (perhaps with a buffer zone). Anyways, this means that we use an 
+object which moves with the player; and this object is what keeps the monsters 
+simulating.
+
+We'll call this the ActiveMap or something -- on the overworld, this map follows 
+the player, but in a dungeon it simulates the entire floor at once. 
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,3 @@
+-- This folder contains all the AI handling --
+- Finite-State Machines
+- Smell-Following (Diffusion is handled by the map)
