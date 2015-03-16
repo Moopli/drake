@@ -1,7 +1,0 @@
-# about as simple as it gets -- a single part which sees, smells, eats, moves
-name = blob
-functions = AMBULATE SIGHT SMELL EAT
-# we don't bother requiring thought and blood since this body part attaches to 
-# nothing.
-# And as for base material:
-material = flesh.material
